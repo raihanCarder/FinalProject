@@ -20,7 +20,7 @@ namespace FinalProject
             _graphics.PreferredBackBufferWidth = 1100;
             _graphics.PreferredBackBufferHeight = 500;
             _graphics.ApplyChanges();
-            this.Window.Title = "Final Game";
+            this.Window.Title = "Platformer Game";
         }
 
         protected override void Initialize()
