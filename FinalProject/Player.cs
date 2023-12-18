@@ -26,17 +26,7 @@ namespace FinalProject
             _location = new Rectangle(x, y, 30, 30);
             _velocity = new Vector2();
         }
-        public float Hspeed
-        {
-            get { return _speed.X; }
-            set { _speed.X = value; }
-        }
-        
-        public float Vspeed
-        {
-            get { return _speed.Y; }
-            set { _speed.Y = value; }
-        }
+
         public bool Collide(Rectangle item)
         {
             return _location.Intersects(item);
