@@ -58,29 +58,14 @@ namespace FinalProject
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             // TODO: Add your update logic here
-            stickman.HSpeed = 0;
-            stickman.VSpeed = 0;
 
-            if (keyboardState.IsKeyDown(Keys.D))         
-                stickman.HSpeed = 3;            
-            else if (keyboardState.IsKeyDown(Keys.A))
-                stickman.HSpeed = -3;
-            //if (keyboardState.IsKeyDown(Keys.W))
-            //    stickman.VSpeed = -3;
-            //else if (keyboardState.IsKeyDown(Keys.S))
-            //    stickman.VSpeed = 3;
-
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
-            {
-                jumping = true;
-            }
-
-            stickman.Update();
+            stickman.Update(gameTime);
 
             foreach (Rectangle barrier in barriers)
                 if (stickman.Collide(barrier))
+                {
                     stickman.UndoMove();
+                }
 
             base.Update(gameTime);
         }
