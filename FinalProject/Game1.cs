@@ -16,7 +16,14 @@ namespace FinalProject
         Player stickman;
         Texture2D testingTexture;
         Texture2D wallTexture;
-        bool jumping;
+        Screen screen;
+
+        enum Screen
+        {
+            Intro,
+            LevelOne
+        }
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -32,14 +39,24 @@ namespace FinalProject
         {
             // TODO: Add your initialization logic here
             
+
+            screen = Screen.LevelOne; // CHANGE TO INTRO
             base.Initialize();
-            stickman = new Player(testingTexture, 10, _graphics.PreferredBackBufferHeight-35);
+
             barriers = new List<Rectangle>();
-            jumping = false;
-            for (int i = 0; i < 1; i++)
+            if (screen == Screen.LevelOne)
             {
-                barriers.Add(new Rectangle(0,495,1100,50));
-            }
+                stickman = new Player(testingTexture, 10, _graphics.PreferredBackBufferHeight - 35);
+                barriers.Add(new Rectangle(0, 495, 1100, 50));
+                barriers.Add(new Rectangle(100, 460, 20, 20));
+                barriers.Add(new Rectangle(600, 430, 100, 30));
+            }     
+
+            //for (int i = 0; i < 1; i++)
+            //{
+            //    barriers.Add(new Rectangle(0,495,1100,50));
+            //}
+            //barriers.Add(new Rectangle(100, 460, 20, 20));
         }
 
         protected override void LoadContent()
@@ -52,20 +69,16 @@ namespace FinalProject
 
         protected override void Update(GameTime gameTime)
         {
-
             keyboardState = Keyboard.GetState();
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             // TODO: Add your update logic here
 
-            stickman.Update(gameTime);
-
-            foreach (Rectangle barrier in barriers)
-                if (stickman.Collide(barrier))
-                {
-                    stickman.UndoMove();
-                }
+            if (screen == Screen.LevelOne)
+            {
+                stickman.Update(gameTime, barriers); 
+            }
 
             base.Update(gameTime);
         }
