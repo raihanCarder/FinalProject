@@ -10,6 +10,8 @@ namespace FinalProject
         // Final Project
         // Raihan Carder
         List<Rectangle> barriers;
+        List<Texture2D> stickmanMovingRight;
+        Texture2D rightStickmanSpritesheet; 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         KeyboardState keyboardState;
@@ -46,11 +48,13 @@ namespace FinalProject
             barriers = new List<Rectangle>();
             if (screen == Screen.LevelOne)
             {
-                stickman = new Player(testingTexture, 10, _graphics.PreferredBackBufferHeight - 35);
+                //stickman = new Player(testingTexture, 10, _graphics.PreferredBackBufferHeight - 35); // Meed to Put in Lists
                 barriers.Add(new Rectangle(0, 495, 1100, 50));
                 barriers.Add(new Rectangle(100, 460, 20, 20));
                 barriers.Add(new Rectangle(600, 430, 100, 30));
-            }     
+            }
+            Texture2D texture = Content.Load<Texture2D>("BlackStickmanRight");
+
 
             //for (int i = 0; i < 1; i++)
             //{
@@ -64,6 +68,12 @@ namespace FinalProject
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             testingTexture = Content.Load<Texture2D>("rectangle");
             wallTexture = Content.Load<Texture2D>("rectangle");
+
+            rightStickmanSpritesheet = Content.Load<Texture2D>("BlackStickmanRight");
+            Texture2D cropTexture;
+            Rectangle sourceRect;
+
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -80,6 +90,7 @@ namespace FinalProject
                 stickman.Update(gameTime, barriers); 
             }
 
+
             base.Update(gameTime);
         }
 
@@ -92,6 +103,7 @@ namespace FinalProject
             stickman.Draw(_spriteBatch);
             foreach (Rectangle barrier in barriers)
                 _spriteBatch.Draw(wallTexture, barrier, Color.Black);
+
             _spriteBatch.End();
 
 
