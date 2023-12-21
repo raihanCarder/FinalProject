@@ -44,7 +44,7 @@ namespace FinalProject
 
             screen = Screen.LevelOne; // CHANGE TO INTRO
             base.Initialize();
-
+            stickman = new Player(Content.Load<Texture2D>("rectangle"), 10, 10); // Testing Sprite
             barriers = new List<Rectangle>();
             if (screen == Screen.LevelOne)
             {
@@ -54,13 +54,7 @@ namespace FinalProject
                 barriers.Add(new Rectangle(600, 430, 100, 30));
             }
             Texture2D texture = Content.Load<Texture2D>("BlackStickmanRight");
-
-
-            //for (int i = 0; i < 1; i++)
-            //{
-            //    barriers.Add(new Rectangle(0,495,1100,50));
-            //}
-            //barriers.Add(new Rectangle(100, 460, 20, 20));
+        
         }
 
         protected override void LoadContent()
@@ -69,9 +63,9 @@ namespace FinalProject
             testingTexture = Content.Load<Texture2D>("rectangle");
             wallTexture = Content.Load<Texture2D>("rectangle");
 
-            rightStickmanSpritesheet = Content.Load<Texture2D>("BlackStickmanRight");
-            Texture2D cropTexture;
-            Rectangle sourceRect;
+            //rightStickmanSpritesheet = Content.Load<Texture2D>("BlackStickmanRight");
+            //Texture2D cropTexture;
+            //Rectangle sourceRect;
 
 
             // TODO: use this.Content to load your game content here

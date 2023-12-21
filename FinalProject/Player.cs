@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,16 +24,25 @@ namespace FinalProject
         private float _maxSpeed = 1.5f;
         private float _acceleration = 1;
         private SpriteEffects _direction;
+        private bool _grounded;
 
         // Needs To Pull in two Lists in For Animations
 
-        public Player(List<Texture2D> walkingTextures, List<Texture2D> jumpingTextures,  int x, int y)
+        public Player(List<Texture2D> walkingTextures, List<Texture2D> jumpingTextures,  int x, int y) // Actual Player Constructor
         {
             _walkingTextures = walkingTextures; 
             _location = new Rectangle(x, y, 30, 30);
             _velocity = new Vector2();
             _direction = SpriteEffects.None;
-            _texture = _walkingTextures[0]; // In update always change TExture to texture wanted.
+            _texture = _walkingTextures[0]; // In update always change Texture to texture wanted.
+        }
+
+        public Player(Texture2D texture, int x, int y) // Used for Testing Purposes
+        {
+            _texture = texture;
+            _location = new Rectangle(x, y, 30, 30);
+            _velocity = new Vector2();
+            _direction = SpriteEffects.None;
         }
 
         public float Yvelocity
@@ -40,9 +50,6 @@ namespace FinalProject
             get { return _velocity.Y; }
             set { _velocity.Y = value; }
         }
-
-
-
 
         public bool isJumping
         {
@@ -58,6 +65,7 @@ namespace FinalProject
         public void Update(GameTime gameTime, List<Rectangle> barriers)
         {
             var keyboardstate = Keyboard.GetState();
+            _grounded = false;
 
             // Horizontal movement
             _location.X += (int)_velocity.X * (int)_acceleration;
@@ -68,15 +76,19 @@ namespace FinalProject
             // Vertical movement
             _location.Y += (int)_velocity.Y;
             foreach (Rectangle barrier in barriers)
+            {
                 if (this.Collide(barrier))
                 {
                     if (_velocity.Y > 0) // makes it so you can go thru the floor when platforming
-                    {
-
+                    {                     
                         _velocity.Y = 0;
                         _hasJumped = false;
                         _location.Y = barrier.Y - _location.Height;
                     }
+
+                    if (_velocity.Y == 0)
+                        _grounded = true;
+
                     //else // Makes it so you stick to bottom of barrier
                     //{
                     //    _velocity.Y = 0;
@@ -84,6 +96,17 @@ namespace FinalProject
                     //    _location.Y = barrier.Bottom;
                     //}
                 }
+
+                if (!this.Collide(barrier) && _velocity.Y == 0)
+                {               
+                    float i = 1;
+                    _velocity.Y -= 0.15f * i;
+                }
+
+            }
+
+
+
             if (keyboardstate.IsKeyDown(Keys.D))
             {
                 _velocity.X = _speedX;
@@ -113,16 +136,23 @@ namespace FinalProject
                 _hasJumped = true;
             }
 
-            if (_hasJumped == true)
+            if (_hasJumped)
             {
                 float i = 1;
                 _velocity.Y += 0.15f * i; // if number higher then will go faster
             }
 
-            if (_hasJumped == false)
+            if (!_hasJumped && _grounded)
             {
                 _velocity.Y = 0f;
             }
+
+            if (!_grounded && !_hasJumped) // Gravity
+            {
+                float i = 1;
+                _velocity.Y += 0.5f * i;
+            }
+
             if (_velocity.X < 0)
                 _direction = SpriteEffects.FlipHorizontally;
             if (_velocity.X > 0)
