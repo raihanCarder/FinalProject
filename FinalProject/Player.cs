@@ -153,7 +153,7 @@ namespace FinalProject
                 _velocity.Y += 0.5f * i;
             }
 
-            if (_velocity.X < 0)
+            if (_velocity.X < 0)    // Makes it so I can only you one spritesheet and it'll flip auto
                 _direction = SpriteEffects.FlipHorizontally;
             if (_velocity.X > 0)
                 _direction = SpriteEffects.None;
