@@ -15,8 +15,10 @@ namespace FinalProject
     class Player
     {
         Texture2D _texture;
-        private List<Texture2D> _walkingTextures;
-        private List<Texture2D> _jumpingTextures;
+        private List<Texture2D> _stickmanTextures;
+
+      
+
         private Rectangle _location;
         private Vector2 _velocity;
         private bool _hasJumped = false;
@@ -28,13 +30,13 @@ namespace FinalProject
 
         // Needs To Pull in two Lists in For Animations
 
-        public Player(List<Texture2D> walkingTextures, List<Texture2D> jumpingTextures,  int x, int y) // Actual Player Constructor
+        public Player( List<Texture2D> stickmanTextures,  int x, int y) // Actual Player Constructor
         {
-            _walkingTextures = walkingTextures; 
+            _stickmanTextures = stickmanTextures;
             _location = new Rectangle(x, y, 30, 30);
             _velocity = new Vector2();
             _direction = SpriteEffects.None;
-            _texture = _walkingTextures[0]; // In update always change Texture to texture wanted.
+            _texture = _stickmanTextures[0]; // In update always change Texture to texture wanted.
         }
 
         public Player(Texture2D texture, int x, int y) // Used for Testing Purposes

@@ -10,11 +10,12 @@ namespace FinalProject
         // Final Project
         // Raihan Carder
         List<Rectangle> barriers;
-        List<Texture2D> stickmanMovingRight;
-        Texture2D rightStickmanSpritesheet; 
+        List<Texture2D> movingTextures;
+        List<Texture2D> jumpingTextures;
+        List<Texture2D> stickmanTextures;
+        Texture2D stickmanSpritesheet; 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        KeyboardState keyboardState;
         Player stickman;
         Texture2D testingTexture;
         Texture2D wallTexture;
@@ -44,8 +45,12 @@ namespace FinalProject
 
             screen = Screen.LevelOne; // CHANGE TO INTRO
             base.Initialize();
-            stickman = new Player(Content.Load<Texture2D>("rectangle"), 10, 10); // Testing Sprite
+            stickman = new Player(stickmanTextures, 10, 10); // Testing Sprite
             barriers = new List<Rectangle>();
+            movingTextures = new List<Texture2D>();
+            jumpingTextures = new List<Texture2D>();
+            stickmanTextures = new List<Texture2D>();
+
             if (screen == Screen.LevelOne)
             {
                 //stickman = new Player(testingTexture, 10, _graphics.PreferredBackBufferHeight - 35); // Meed to Put in Lists
@@ -53,8 +58,7 @@ namespace FinalProject
                 barriers.Add(new Rectangle(100, 460, 20, 20));
                 barriers.Add(new Rectangle(600, 430, 100, 30));
             }
-            Texture2D texture = Content.Load<Texture2D>("BlackStickmanRight");
-        
+      
         }
 
         protected override void LoadContent()
@@ -62,18 +66,34 @@ namespace FinalProject
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             testingTexture = Content.Load<Texture2D>("rectangle");
             wallTexture = Content.Load<Texture2D>("rectangle");
+            stickmanSpritesheet = Content.Load<Texture2D>("BlackStickmanRight");
+            Texture2D cropTexture;
+            Rectangle sourceRect;
+            int width = 64;
+            int height = 50;
 
-            //rightStickmanSpritesheet = Content.Load<Texture2D>("BlackStickmanRight");
-            //Texture2D cropTexture;
-            //Rectangle sourceRect;
+            for (int y = 0; y < 5; y++)
+            {
+                for (int x = 0; x < 8; x++)
+                {
+                    sourceRect = new Rectangle(x * width, y * height, width, height);
+                    cropTexture = new Texture2D(GraphicsDevice, width, height);
+                    Color[] data = new Color[width * height];
+                    stickmanSpritesheet.GetData(0, sourceRect, data, 0, data.Length);
+                    cropTexture.SetData(data);
+                    if (stickmanTextures.Count < 39)
+                        stickmanTextures.Add(cropTexture);
+                }
+            }
 
+           
 
             // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
         {
-            keyboardState = Keyboard.GetState();
+          
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
