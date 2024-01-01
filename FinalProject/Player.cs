@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
 using System.Text;
@@ -27,22 +28,25 @@ namespace FinalProject
         private float _acceleration = 1;
         private SpriteEffects _direction;
         private bool _grounded;
+        private int frameCounter = 0;
+        private bool gravity = false;
+        private bool hasRun = false;
 
         // Needs To Pull in two Lists in For Animations
 
-        public Player( List<Texture2D> stickmanTextures,  int x, int y) // Actual Player Constructor
+        public Player(List<Texture2D> stickmanTextures,  int x, int y) // Actual Player Constructor
         {
             _stickmanTextures = stickmanTextures;
-            _location = new Rectangle(x, y, 30, 30);
+            _location = new Rectangle(x, y, 45, 45);
             _velocity = new Vector2();
             _direction = SpriteEffects.None;
-            _texture = _stickmanTextures[0]; // In update always change Texture to texture wanted.
+            _texture = _stickmanTextures[frameCounter]; // In update always change Texture to texture wanted.
         }
 
         public Player(Texture2D texture, int x, int y) // Used for Testing Purposes
         {
             _texture = texture;
-            _location = new Rectangle(x, y, 30, 30);
+            _location = new Rectangle(x, y, 45, 45);
             _velocity = new Vector2();
             _direction = SpriteEffects.None;
         }
@@ -68,6 +72,8 @@ namespace FinalProject
         {
             var keyboardstate = Keyboard.GetState();
             _grounded = false;
+            _texture = _stickmanTextures[frameCounter];
+
 
             // Horizontal movement
             _location.X += (int)_velocity.X * (int)_acceleration;
@@ -91,12 +97,6 @@ namespace FinalProject
                     if (_velocity.Y == 0)
                         _grounded = true;
 
-                    //else // Makes it so you stick to bottom of barrier
-                    //{
-                    //    _velocity.Y = 0;
-                    //    _hasJumped = false;
-                    //    _location.Y = barrier.Bottom;
-                    //}
                 }
 
                 if (!this.Collide(barrier) && _velocity.Y == 0)
@@ -132,7 +132,8 @@ namespace FinalProject
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space) && _hasJumped == false)
-            {
+            {       
+                frameCounter = 3; // Start of Jump
                 _location.Y -= 20;
                 _velocity.Y = -5f;
                 _hasJumped = true;
@@ -140,13 +141,16 @@ namespace FinalProject
 
             if (_hasJumped)
             {
+                if (frameCounter < 19)
+                    frameCounter++;
                 float i = 1;
                 _velocity.Y += 0.15f * i; // if number higher then will go faster
             }
 
             if (!_hasJumped && _grounded)
-            {
+            {              
                 _velocity.Y = 0f;
+                frameCounter = 0;
             }
 
             if (!_grounded && !_hasJumped) // Gravity
@@ -155,12 +159,19 @@ namespace FinalProject
                 _velocity.Y += 0.5f * i;
             }
 
+            
+
+
             if (_velocity.X < 0)    // Makes it so I can only you one spritesheet and it'll flip auto
-                _direction = SpriteEffects.FlipHorizontally;
+            {
+                _direction = SpriteEffects.FlipHorizontally; 
+            }
             if (_velocity.X > 0)
+            {
                 _direction = SpriteEffects.None;
+            }
 
-
+           
         }
         public void Draw(SpriteBatch spriteBatch)
         {

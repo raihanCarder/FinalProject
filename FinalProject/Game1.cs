@@ -10,8 +10,6 @@ namespace FinalProject
         // Final Project
         // Raihan Carder
         List<Rectangle> barriers;
-        List<Texture2D> movingTextures;
-        List<Texture2D> jumpingTextures;
         List<Texture2D> stickmanTextures;
         Texture2D stickmanSpritesheet; 
         private GraphicsDeviceManager _graphics;
@@ -41,19 +39,16 @@ namespace FinalProject
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            
 
+            stickmanTextures = new List<Texture2D>();
             screen = Screen.LevelOne; // CHANGE TO INTRO
             base.Initialize();
             stickman = new Player(stickmanTextures, 10, 10); // Testing Sprite
             barriers = new List<Rectangle>();
-            movingTextures = new List<Texture2D>();
-            jumpingTextures = new List<Texture2D>();
-            stickmanTextures = new List<Texture2D>();
+
 
             if (screen == Screen.LevelOne)
-            {
-                //stickman = new Player(testingTexture, 10, _graphics.PreferredBackBufferHeight - 35); // Meed to Put in Lists
+            {         
                 barriers.Add(new Rectangle(0, 495, 1100, 50));
                 barriers.Add(new Rectangle(100, 460, 20, 20));
                 barriers.Add(new Rectangle(600, 430, 100, 30));
@@ -67,22 +62,26 @@ namespace FinalProject
             testingTexture = Content.Load<Texture2D>("rectangle");
             wallTexture = Content.Load<Texture2D>("rectangle");
             stickmanSpritesheet = Content.Load<Texture2D>("BlackStickmanRight");
-            Texture2D cropTexture;
-            Rectangle sourceRect;
-            int width = 64;
-            int height = 50;
+
+            int width = stickmanSpritesheet.Width / 8;
+            int height = stickmanSpritesheet.Height / 5;
 
             for (int y = 0; y < 5; y++)
             {
                 for (int x = 0; x < 8; x++)
                 {
-                    sourceRect = new Rectangle(x * width, y * height, width, height);
-                    cropTexture = new Texture2D(GraphicsDevice, width, height);
+                  
+
+                    Rectangle sourceRect = new Rectangle(x * width, y * height, width, height);
+                    Texture2D cropTexture = new Texture2D(GraphicsDevice, width, height);
                     Color[] data = new Color[width * height];
                     stickmanSpritesheet.GetData(0, sourceRect, data, 0, data.Length);
                     cropTexture.SetData(data);
-                    if (stickmanTextures.Count < 39)
+                    if (stickmanTextures.Count < 40)
+                    {
                         stickmanTextures.Add(cropTexture);
+                    }
+                    
                 }
             }
 
