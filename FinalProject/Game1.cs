@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Security.Principal;
 
 namespace FinalProject
 {
@@ -66,12 +68,13 @@ namespace FinalProject
             int width = stickmanSpritesheet.Width / 8;
             int height = stickmanSpritesheet.Height / 5;
 
+            // Jumping Textures
+
             for (int y = 0; y < 5; y++)
             {
                 for (int x = 0; x < 8; x++)
                 {
-                  
-
+                    
                     Rectangle sourceRect = new Rectangle(x * width, y * height, width, height);
                     Texture2D cropTexture = new Texture2D(GraphicsDevice, width, height);
                     Color[] data = new Color[width * height];
@@ -114,6 +117,18 @@ namespace FinalProject
             _spriteBatch.Begin();
 
             stickman.Draw(_spriteBatch);
+
+            // Running Numbers are 32/39
+
+            _spriteBatch.Draw(stickmanTextures[21],new Rectangle(10,10,45,45), Color.Red);
+            _spriteBatch.Draw(stickmanTextures[26], new Rectangle(55, 10, 45, 45), Color.Red);
+            _spriteBatch.Draw(stickmanTextures[27], new Rectangle(100, 10, 45, 45), Color.Red);
+            _spriteBatch.Draw(stickmanTextures[28], new Rectangle(145, 10, 45, 45), Color.Red);
+            _spriteBatch.Draw(stickmanTextures[29], new Rectangle(190, 10, 45, 45), Color.Red);
+            _spriteBatch.Draw(stickmanTextures[30], new Rectangle(235, 10, 45, 45), Color.Red);
+            _spriteBatch.Draw(stickmanTextures[31], new Rectangle(280, 10, 45, 45), Color.Red);
+            _spriteBatch.Draw(stickmanTextures[32], new Rectangle(325, 10, 45, 45), Color.Red);
+
             foreach (Rectangle barrier in barriers)
                 _spriteBatch.Draw(wallTexture, barrier, Color.Black);
 

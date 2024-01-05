@@ -18,8 +18,6 @@ namespace FinalProject
         Texture2D _texture;
         private List<Texture2D> _stickmanTextures;
 
-      
-
         private Rectangle _location;
         private Vector2 _velocity;
         private bool _hasJumped = false;
@@ -29,10 +27,11 @@ namespace FinalProject
         private SpriteEffects _direction;
         private bool _grounded;
         private int frameCounter = 0;
-        private bool gravity = false;
-        private bool hasRun = false;
 
-        // Needs To Pull in two Lists in For Animations
+        // Animations
+        // Standing is 0
+        // Jumping 3-19
+        // Running 21-39
 
         public Player(List<Texture2D> stickmanTextures,  int x, int y) // Actual Player Constructor
         {
@@ -107,7 +106,7 @@ namespace FinalProject
 
             }
 
-
+            // Movement Code 
 
             if (keyboardstate.IsKeyDown(Keys.D))
             {
@@ -131,6 +130,8 @@ namespace FinalProject
                 _acceleration = 1;
             }
 
+            // Jump Code
+
             if (Keyboard.GetState().IsKeyDown(Keys.Space) && _hasJumped == false)
             {       
                 frameCounter = 3; // Start of Jump
@@ -138,6 +139,8 @@ namespace FinalProject
                 _velocity.Y = -5f;
                 _hasJumped = true;
             }
+
+            // Jumping code with Animation
 
             if (_hasJumped)
             {
@@ -147,19 +150,25 @@ namespace FinalProject
                 _velocity.Y += 0.15f * i; // if number higher then will go faster
             }
 
+            // Makes sure that when grounded and Not Moving Player stays still
+
             if (!_hasJumped && _grounded)
             {              
                 _velocity.Y = 0f;
                 frameCounter = 0;
             }
 
-            if (!_grounded && !_hasJumped) // Gravity
+
+            // Gravity
+
+            if (!_grounded && !_hasJumped)
             {
                 float i = 1;
                 _velocity.Y += 0.5f * i;
             }
 
-            
+
+            // Flips Spritesheet 
 
 
             if (_velocity.X < 0)    // Makes it so I can only you one spritesheet and it'll flip auto
