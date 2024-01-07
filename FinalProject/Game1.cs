@@ -36,6 +36,7 @@ namespace FinalProject
             _graphics.PreferredBackBufferHeight = 500;
             _graphics.ApplyChanges();
             this.Window.Title = "Platformer Game";
+          
         }
 
         protected override void Initialize()
@@ -53,7 +54,7 @@ namespace FinalProject
             {         
                 barriers.Add(new Rectangle(0, 495, 1100, 50));
                 barriers.Add(new Rectangle(100, 460, 20, 20));
-                barriers.Add(new Rectangle(600, 430, 100, 30));
+                barriers.Add(new Rectangle(600, 400, 100, 20));
             }
       
         }
@@ -112,7 +113,7 @@ namespace FinalProject
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.White);
 
             _spriteBatch.Begin();
 

@@ -24,14 +24,14 @@ namespace FinalProject
         private Vector2 _velocity;
         private bool _hasJumped = false;
         private bool _isRunning = false;
-        private int _speedX = 3;
+        private int _speedX = 4;
         private float _maxSpeed = 1.5f;
         private float _acceleration = 1;
         private SpriteEffects _direction;
         private bool _grounded;
         private int frameCounter = 0;
         private float _animationTimeStamp;
-        private float _animationInterval = 0.08f;
+        private float _animationInterval = 0.06f;
         private float _animationTime;
 
         // Animations
@@ -84,11 +84,12 @@ namespace FinalProject
 
             // Horizontal movement
             _location.X += (int)_velocity.X * (int)_acceleration;
+
             foreach (Rectangle barrier in barriers)
                 if (this.Collide(barrier))
                     _location.X -= (int)_velocity.X * (int)_acceleration;
 
-            // Vertical movement
+            // Vertical Movement
             _location.Y += (int)_velocity.Y;
 
             foreach (Rectangle barrier in barriers)
@@ -105,11 +106,13 @@ namespace FinalProject
                             _isRunning = true;
                             if (frameCounter == 19)
                                 frameCounter = 31;
+
                         }
-                    }
+                    }              
 
                     if (_velocity.Y == 0)
                         _grounded = true;
+
 
                 }
 
@@ -132,7 +135,7 @@ namespace FinalProject
             }
 
             if (_isRunning /*&& _velocity.Y != 0*/)
-            {
+            {          
                 _animationTime = (float)gameTime.TotalGameTime.TotalSeconds - _animationTimeStamp;
                 if (_animationTime > _animationInterval)
                 {
@@ -143,6 +146,13 @@ namespace FinalProject
                         frameCounter = 31;
                     }
                 }
+
+                if (_acceleration < _maxSpeed)
+                    _acceleration += 0.05f;
+                else if (_acceleration > _maxSpeed)
+                    _acceleration = _maxSpeed;
+
+
             }
           
 
@@ -151,19 +161,11 @@ namespace FinalProject
 
             if (_keyboardState.IsKeyDown(Keys.D))
             {
-                _velocity.X = _speedX;
-                if (!_hasJumped && _acceleration <= _maxSpeed)
-                {
-                    _acceleration += 0.05f;
-                }
+                _velocity.X = _speedX;  
             }
             else if (_keyboardState.IsKeyDown(Keys.A))
             {
                 _velocity.X = -_speedX;
-                if (!_hasJumped && _acceleration <= _maxSpeed)
-                {
-                    _acceleration += 0.05f;
-                }
             }
             else
             {
