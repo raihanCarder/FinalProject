@@ -25,8 +25,7 @@ namespace FinalProject
         private bool _hasJumped = false;
         private bool _isRunning = false;
         private int _speedX = 4;
-        private float _maxSpeed = 1.5f;
-        private float _acceleration = 1;
+        private float _acceleration = 1.05f;
         private SpriteEffects _direction;
         private bool _grounded;
         private int frameCounter = 0;
@@ -147,30 +146,21 @@ namespace FinalProject
                     }
                 }
 
-                if (_acceleration < _maxSpeed)
-                    _acceleration += 0.05f;
-                else if (_acceleration > _maxSpeed)
-                    _acceleration = _maxSpeed;
-
-
             }
           
-
             _oldstate = newState;
-
 
             if (_keyboardState.IsKeyDown(Keys.D))
             {
-                _velocity.X = _speedX;  
+                _velocity.X = _speedX * (int)_acceleration;  
             }
             else if (_keyboardState.IsKeyDown(Keys.A))
             {
-                _velocity.X = -_speedX;
+                _velocity.X = -_speedX * (int)_acceleration;
             }
             else
             {
                 _velocity.X = 0;
-                _acceleration = 1;
             }
 
             // Jump Code
