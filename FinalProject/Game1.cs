@@ -2,8 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
+using System.Threading;
 
 namespace FinalProject
 {
@@ -13,11 +15,15 @@ namespace FinalProject
         // Raihan Carder
         List<Rectangle> barriers;
         List<Texture2D> stickmanTextures;
-        Texture2D stickmanSpritesheet; 
+        List<Texture2D> spinningBladeTextures;
+        Texture2D stickmanSpritesheet;
+        Texture2D spawnPoint;
+        Texture2D endPoint;
+        Texture2D circleHitboxTexture; // Shows Circular Hitbox
+        Circle hitboxCircle;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         Player stickman;
-        Texture2D testingTexture;
         Texture2D wallTexture;
         Screen screen;
 
@@ -42,14 +48,12 @@ namespace FinalProject
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            hitboxCircle = new Circle(new Microsoft.Xna.Framework.Vector2(500,350), 50f);
             stickmanTextures = new List<Texture2D>();
             screen = Screen.LevelOne; // CHANGE TO INTRO
             base.Initialize();
             stickman = new Player(stickmanTextures, 10, 10); // Testing Sprite
             barriers = new List<Rectangle>();
-
-
             if (screen == Screen.LevelOne)
             {         
                 barriers.Add(new Rectangle(0, 495, 1100, 50));
@@ -61,8 +65,8 @@ namespace FinalProject
 
         protected override void LoadContent()
         {
+            circleHitboxTexture = Content.Load<Texture2D>("circle");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            testingTexture = Content.Load<Texture2D>("rectangle");
             wallTexture = Content.Load<Texture2D>("rectangle");
             stickmanSpritesheet = Content.Load<Texture2D>("BlackStickmanRight");
 
@@ -105,6 +109,13 @@ namespace FinalProject
             if (screen == Screen.LevelOne)
             {
                 stickman.Update(gameTime, barriers); 
+
+                if (hitboxCircle.Intersects(stickman.Location))
+                {
+                    
+                }
+
+
             }
 
 
@@ -117,10 +128,14 @@ namespace FinalProject
 
             _spriteBatch.Begin();
 
-            stickman.Draw(_spriteBatch);      
+            stickman.Draw(_spriteBatch);
 
             foreach (Rectangle barrier in barriers)
                 _spriteBatch.Draw(wallTexture, barrier, Color.Black);
+
+            _spriteBatch.Draw(circleHitboxTexture,hitboxCircle.DrawRect, Color.Black);
+
+
 
             _spriteBatch.End();
 

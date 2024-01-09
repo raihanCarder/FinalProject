@@ -55,6 +55,9 @@ namespace FinalProject
             _direction = SpriteEffects.None;
         }
 
+        public Rectangle Location
+        { get { return _location; } }
+
         public float Yvelocity
         {
             get { return _velocity.Y; }
