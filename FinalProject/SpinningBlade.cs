@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace FinalProject
     class SpinningBlade
     {
         private List<Texture2D> _spinningBladeTextures;
-        private Circle _location;
+        private Rectangle _location;
         private int _endingDistance;
         private int _startingDistance;
         private float _speed;
@@ -26,7 +26,7 @@ namespace FinalProject
         public SpinningBlade(List<Texture2D> bladeTextures, int x, int y, int endingPoint, float speed, int size, bool horizontalDirection) // Default Spinning Blade
         {
             _spinningBladeTextures = bladeTextures;
-            //_location = new Circle(x, y, size*2);
+            _location = new Rectangle(x, y, size * 2);
             _endingDistance = endingPoint;
             _speed = speed;
             _horizontalDirection = horizontalDirection;

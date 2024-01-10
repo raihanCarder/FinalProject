@@ -18,48 +18,6 @@ namespace FinalProject
             Radius = radius;
         }
 
-        //public Circle(int x, int y, float radius)
-        //    : this()
-        //{
-        //    Center = center;
-        //    Center.X = x;
-        //    Radius = radius;
-        //}
-
-
-        public bool Intersects(Rectangle rectangle)
-        {
-            int X = (int)Center.X;
-            int Y = (int)Center.Y;
-            // the first thing we want to know is if any of the corners intersect
-            var corners = new[]
-            {
-            new Point(rectangle.Left, rectangle.Top),
-            new Point(rectangle.Right, rectangle.Top),
-            new Point(rectangle.Right, rectangle.Bottom),
-            new Point(rectangle.Left, rectangle.Bottom)
-            };
-
-            foreach (var corner in corners)
-            {
-                if (ContainsPoint(corner))
-                    return true;
-            }
-
-            // next we want to know if the left, top, right or bottom edges overlap
-            if (X - Radius > rectangle.Right || X + Radius < rectangle.Left)
-                return false;
-
-            if (Y - Radius > rectangle.Bottom || Y + Radius < rectangle.Top)
-                return false;
-
-            return true;
-        }
-
-        private bool ContainsPoint(Point corner)
-        {
-            throw new NotImplementedException();
-        }
 
         public Rectangle DrawRect
         {

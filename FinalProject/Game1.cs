@@ -110,11 +110,6 @@ namespace FinalProject
             {
                 stickman.Update(gameTime, barriers); 
 
-                if (hitboxCircle.Intersects(stickman.Location))
-                {
-                    
-                }
-
 
             }
 
@@ -134,7 +129,7 @@ namespace FinalProject
                 _spriteBatch.Draw(wallTexture, barrier, Color.Black);
 
             _spriteBatch.Draw(circleHitboxTexture,hitboxCircle.DrawRect, Color.Black);
-
+            
 
 
             _spriteBatch.End();

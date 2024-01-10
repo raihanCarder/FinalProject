@@ -56,8 +56,15 @@ namespace FinalProject
         }
 
         public Rectangle Location
-        { get { return _location; } }
+        { get { return _location; }
+          set { _location = value; }
+        }
 
+        public int XLocation
+        {
+            get { return _location.X; }
+            set { _location.X = value; }
+        }
         public float Yvelocity
         {
             get { return _velocity.Y; }
