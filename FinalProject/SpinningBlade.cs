@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
@@ -17,6 +16,7 @@ namespace FinalProject
     class SpinningBlade
     {
         private List<Texture2D> _spinningBladeTextures;
+        private Rectangle _location;
         private int _endingDistance;
         private int _startingDistance;
         private float _speed;
@@ -26,6 +26,7 @@ namespace FinalProject
         {
             _spinningBladeTextures = bladeTextures;
             _endingDistance = endingPoint;
+            _location = new Rectangle(x, y, size, size);
             _speed = speed;
             _horizontalDirection = horizontalDirection;
         }

@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading;
@@ -25,7 +24,9 @@ namespace FinalProject
         Player stickman;
         Texture2D wallTexture;
         Screen screen;
-
+        MouseState mouseState;
+        int xPosition, yPosition;
+        SpriteFont cordinates;
         enum Screen
         {
             Intro,
@@ -69,6 +70,9 @@ namespace FinalProject
             wallTexture = Content.Load<Texture2D>("rectangle");
             stickmanSpritesheet = Content.Load<Texture2D>("BlackStickmanRight");
 
+            cordinates = Content.Load<SpriteFont>("Cordinates"); // Delete later 
+
+
             int width = stickmanSpritesheet.Width / 8;
             int height = stickmanSpritesheet.Height / 5;
 
@@ -99,7 +103,12 @@ namespace FinalProject
 
         protected override void Update(GameTime gameTime)
         {
-          
+
+            mouseState = Mouse.GetState(); // Delete Later 
+            xPosition = mouseState.X;
+            yPosition = mouseState.Y;
+
+
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -108,8 +117,6 @@ namespace FinalProject
             if (screen == Screen.LevelOne)
             {
                 stickman.Update(gameTime, barriers); 
-
-
             }
 
 
@@ -126,8 +133,8 @@ namespace FinalProject
 
             foreach (Rectangle barrier in barriers)
                 _spriteBatch.Draw(wallTexture, barrier, Color.Black);
-            
 
+            _spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(10, 10), Color.Black);
 
             _spriteBatch.End();
 

@@ -37,6 +37,13 @@
 /processorParam:TextureFormat=Color
 /build:circle.png
 
+#begin Cordinates.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Cordinates.spritefont
+
 #begin frameSpinningBlade0.gif
 /importer:TextureImporter
 /processor:TextureProcessor
