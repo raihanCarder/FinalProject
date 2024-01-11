@@ -20,7 +20,6 @@ namespace FinalProject
         Texture2D spawnPoint;
         Texture2D endPoint;
         Texture2D circleHitboxTexture; // Shows Circular Hitbox
-        Circle hitboxCircle;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         Player stickman;
@@ -48,7 +47,7 @@ namespace FinalProject
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            hitboxCircle = new Circle(new Microsoft.Xna.Framework.Vector2(500,350), 50f);
+      
             stickmanTextures = new List<Texture2D>();
             screen = Screen.LevelOne; // CHANGE TO INTRO
             base.Initialize();
@@ -127,8 +126,6 @@ namespace FinalProject
 
             foreach (Rectangle barrier in barriers)
                 _spriteBatch.Draw(wallTexture, barrier, Color.Black);
-
-            _spriteBatch.Draw(circleHitboxTexture,hitboxCircle.DrawRect, Color.Black);
             
 
 

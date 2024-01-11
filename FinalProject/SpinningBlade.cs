@@ -17,7 +17,6 @@ namespace FinalProject
     class SpinningBlade
     {
         private List<Texture2D> _spinningBladeTextures;
-        private Rectangle _location;
         private int _endingDistance;
         private int _startingDistance;
         private float _speed;
@@ -26,7 +25,6 @@ namespace FinalProject
         public SpinningBlade(List<Texture2D> bladeTextures, int x, int y, int endingPoint, float speed, int size, bool horizontalDirection) // Default Spinning Blade
         {
             _spinningBladeTextures = bladeTextures;
-            _location = new Rectangle(x, y, size * 2);
             _endingDistance = endingPoint;
             _speed = speed;
             _horizontalDirection = horizontalDirection;
