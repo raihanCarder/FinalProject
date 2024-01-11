@@ -15,6 +15,8 @@ namespace FinalProject
         List<Rectangle> barriers;
         List<Texture2D> stickmanTextures;
         List<Texture2D> spinningBladeTextures;
+        List<SpinningBlade> spinningBlades;
+        SpinningBlade blade1;
         Texture2D stickmanSpritesheet;
         Texture2D spawnPoint;
         Texture2D endPoint;
@@ -50,15 +52,20 @@ namespace FinalProject
             // TODO: Add your initialization logic here
       
             stickmanTextures = new List<Texture2D>();
+            spinningBladeTextures = new List<Texture2D>();  
             screen = Screen.LevelOne; // CHANGE TO INTRO
             base.Initialize();
             stickman = new Player(stickmanTextures, 10, 10); // Testing Sprite
             barriers = new List<Rectangle>();
+            spinningBlades = new List<SpinningBlade>();
+
             if (screen == Screen.LevelOne)
             {         
                 barriers.Add(new Rectangle(0, 495, 1100, 50));
                 barriers.Add(new Rectangle(100, 460, 20, 20));
                 barriers.Add(new Rectangle(600, 400, 100, 20));
+                blade1 = new SpinningBlade(spinningBladeTextures, 150, 300, 200, 2, 50, false, true);
+                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, 150, 300, 200, 2, 50, true, true)); // How to add Blades
             }
       
         }
@@ -96,6 +103,11 @@ namespace FinalProject
                 }
             }
 
+            for (int i = 0; i < 3; i++)
+            {
+                spinningBladeTextures.Add(Content.Load<Texture2D>($"frameSpinningBlade{i}"));
+            }
+
            
 
             // TODO: use this.Content to load your game content here
@@ -108,7 +120,10 @@ namespace FinalProject
             xPosition = mouseState.X;
             yPosition = mouseState.Y;
 
-
+            if (blade1.Collide(stickman.Location))
+            {
+                stickman.XLocation = 10;
+            }
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -116,7 +131,8 @@ namespace FinalProject
 
             if (screen == Screen.LevelOne)
             {
-                stickman.Update(gameTime, barriers); 
+                stickman.Update(gameTime, barriers);
+                blade1.Update(gameTime);
             }
 
 
@@ -134,7 +150,11 @@ namespace FinalProject
             foreach (Rectangle barrier in barriers)
                 _spriteBatch.Draw(wallTexture, barrier, Color.Black);
 
+           
+
             _spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(10, 10), Color.Black);
+
+            blade1.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
