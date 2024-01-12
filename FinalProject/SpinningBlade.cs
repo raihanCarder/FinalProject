@@ -20,31 +20,34 @@ namespace FinalProject
         private Rectangle _location;
         private Vector2 _velocity;
         private int _endingDistance;
-        private int _startingDistance;// Maybe Make Vector 2 Like Other Class
+        private float _startingDistance;// Maybe Make Vector 2 Like Other Class
+        private float _speed;
         private bool _goingRight;
+        private bool _horizontalDirection;
 
-        public SpinningBlade(List<Texture2D> bladeTextures, int x, int y, int endingPoint, float speed, int size, bool horizontalDirection, bool goingRight) // Default Spinning Blade
+        public SpinningBlade(List<Texture2D> bladeTextures, Vector2 spawnPoint, int endingPoint, float speed, int size, bool horizontalDirection, bool goingRight) // Default Spinning Blade
         {
             _spinningBladeTextures = bladeTextures;
             _endingDistance = endingPoint;
-            _location = new Rectangle(x, y, size, size);
-            _startingDistance = x;
+            _location = new Rectangle((int)spawnPoint.X, (int)spawnPoint.Y, size, size);
+            _startingDistance = spawnPoint.X;
             _velocity = new Vector2();
             _texture = bladeTextures[0];
             _goingRight = goingRight;
-            //if (horizontalDirection)
-            //{
-            //    _velocity.X = speed;
-            //}
-            //else if (!horizontalDirection)
-            //{
-            //    _velocity.Y = speed;
-            //}
-            _velocity.X = speed;
-
+            _horizontalDirection = horizontalDirection;
+            _speed = speed;
         }
         public void Update(GameTime gameTime)
         {
+            if (_horizontalDirection)
+            {
+                _velocity.X = _speed;
+            }
+            else if (!_horizontalDirection)
+            {
+                _velocity.Y = _speed;
+            }
+
             _location.X += (int)_velocity.X;
             _location.Y += (int)_velocity.Y;
 
