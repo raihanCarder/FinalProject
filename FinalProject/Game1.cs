@@ -16,11 +16,9 @@ namespace FinalProject
         List<Texture2D> stickmanTextures;
         List<Texture2D> spinningBladeTextures;
         List<SpinningBlade> spinningBlades;
-        SpinningBlade blade1;
         Texture2D stickmanSpritesheet;
         Texture2D spawnPoint;
         Texture2D endPoint;
-        Texture2D circleHitboxTexture; // Shows Circular Hitbox
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         Player stickman;
@@ -64,15 +62,13 @@ namespace FinalProject
                 barriers.Add(new Rectangle(0, 495, 1100, 50));
                 barriers.Add(new Rectangle(100, 460, 20, 20));
                 barriers.Add(new Rectangle(600, 400, 100, 20));
-                blade1 = new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 200, 2, 50, true, true);
-                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 200, 2, 50, true, true)); // How to add Blades
+                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 300, 2, 50, true)); // How to add Blades
             }
       
         }
 
         protected override void LoadContent()
         {
-            circleHitboxTexture = Content.Load<Texture2D>("circle");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             wallTexture = Content.Load<Texture2D>("rectangle");
             stickmanSpritesheet = Content.Load<Texture2D>("BlackStickmanRight");
@@ -98,8 +94,7 @@ namespace FinalProject
                     if (stickmanTextures.Count < 40)
                     {
                         stickmanTextures.Add(cropTexture);
-                    }
-                    
+                    }        
                 }
             }
 
@@ -120,10 +115,9 @@ namespace FinalProject
             xPosition = mouseState.X;
             yPosition = mouseState.Y;
 
-            if (blade1.Collide(stickman.Location))
-            {
-                stickman.XLocation = 10;
-            }
+            foreach (SpinningBlade spinningBlade in spinningBlades)
+                if (spinningBlade.Collide(stickman.Location))
+                    stickman.XLocation = 10;
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -132,7 +126,8 @@ namespace FinalProject
             if (screen == Screen.LevelOne)
             {
                 stickman.Update(gameTime, barriers);
-                blade1.Update(gameTime);
+                foreach (SpinningBlade spinningBlade in spinningBlades)
+                    spinningBlade.Update(gameTime);
             }
 
 
@@ -150,11 +145,10 @@ namespace FinalProject
             foreach (Rectangle barrier in barriers)
                 _spriteBatch.Draw(wallTexture, barrier, Color.Black);
 
-           
+            foreach (SpinningBlade spinningBlade in spinningBlades)
+                spinningBlade.Draw(_spriteBatch);
 
-            _spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(10, 10), Color.Black);
-
-            blade1.Draw(_spriteBatch);
+            _spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(10, 10), Color.Black);         
 
             _spriteBatch.End();
 
