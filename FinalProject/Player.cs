@@ -70,6 +70,11 @@ namespace FinalProject
             get { return _velocity.Y; }
             set { _velocity.Y = value; }
         }
+        public float Xvelocity
+        {
+            get { return _velocity.X; }
+            set { _velocity.X = value; }
+        }
 
         public bool isJumping
         {

@@ -53,15 +53,16 @@ namespace FinalProject
             spinningBladeTextures = new List<Texture2D>();  
             screen = Screen.LevelOne; // CHANGE TO INTRO
             base.Initialize();
-            stickman = new Player(stickmanTextures, 10, 10); // Testing Sprite
+            stickman = new Player(stickmanTextures, 10, 450); // Testing Sprite
             barriers = new List<Rectangle>();
             spinningBlades = new List<SpinningBlade>();
 
             if (screen == Screen.LevelOne)
             {         
                 barriers.Add(new Rectangle(0, 495, 1100, 50));
-                barriers.Add(new Rectangle(100, 460, 20, 20));
+                //barriers.Add(new Rectangle(100, 460, 40, 200));
                 barriers.Add(new Rectangle(600, 400, 100, 20));
+                barriers.Add(new Rectangle(0, 410, 100, 20));
                 spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 300, 2, 50, true)); // How to add Blades
             }
       
@@ -82,7 +83,7 @@ namespace FinalProject
             // Jumping Textures
 
             for (int y = 0; y < 5; y++)
-            {
+           {
                 for (int x = 0; x < 8; x++)
                 {
                     
@@ -117,7 +118,10 @@ namespace FinalProject
 
             foreach (SpinningBlade spinningBlade in spinningBlades)
                 if (spinningBlade.Collide(stickman.Location))
-                    stickman.XLocation = 10;
+                {
+                    stickman.XLocation = 10;                
+                }
+                   
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
