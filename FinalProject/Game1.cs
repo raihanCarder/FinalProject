@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
@@ -18,7 +19,7 @@ namespace FinalProject
         List<Texture2D> spinningBladeTextures;
         List<SpinningBlade> spinningBlades;
         List<DoubleJump> doubleJumps;
-        Texture2D DoubleJumpTexture; // Delete Later
+        List<Texture2D> doubleJumpTextures;
         Texture2D stickmanSpritesheet;
         Texture2D spawnPoint;
         Texture2D endPoint;
@@ -51,16 +52,27 @@ namespace FinalProject
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
+            // Texture 2D lists
+
             stickmanTextures = new List<Texture2D>();
             spinningBladeTextures = new List<Texture2D>();
+            doubleJumpTextures = new List<Texture2D>();
+
+            // Screen
+
             screen = Screen.LevelOne; // CHANGE TO INTRO
             base.Initialize();
+          
+            // Player
             stickman = new Player(stickmanTextures, 10, 450); // Testing Sprite
 
-            // Initialize all Lists
+            // Initialize all other Lists
+
             barriers = new List<Rectangle>();
             spinningBlades = new List<SpinningBlade>();
             doubleJumps = new List<DoubleJump>();
+         
 
 
             if (screen == Screen.LevelOne)
@@ -72,8 +84,8 @@ namespace FinalProject
                 spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 300, 2, 50, true)); // How to add Blades
                 spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 500, 2, 50, false));
                 spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(500, 400), 500, 0, 50, false));
-                doubleJumps.Add(new DoubleJump(DoubleJumpTexture, new Vector2(400, 400),30));
-                doubleJumps.Add(new DoubleJump(DoubleJumpTexture, new Vector2(600, 340), 50));
+                doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(400, 400), 30));
+                doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(600, 340), 50));
             }
       
         }
@@ -83,7 +95,6 @@ namespace FinalProject
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             wallTexture = Content.Load<Texture2D>("rectangle");
             stickmanSpritesheet = Content.Load<Texture2D>("BlackStickmanRight");
-            DoubleJumpTexture = Content.Load<Texture2D>("frame_00_delay-0.2s");
             cordinates = Content.Load<SpriteFont>("Cordinates"); // Delete later 
 
 
@@ -116,7 +127,10 @@ namespace FinalProject
                 spinningBladeTextures.Add(Content.Load<Texture2D>($"frameSpinningBlade{i}"));
             }
 
-           
+            for (int i = 0; i < 23; i++)
+            {
+                doubleJumpTextures.Add(Content.Load<Texture2D>($"frame_{i}_delay-0.2s"));
+            }
 
             // TODO: use this.Content to load your game content here
         }

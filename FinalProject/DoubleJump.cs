@@ -17,18 +17,15 @@ namespace FinalProject
         private Color _color;
         private Vector2 _position;
 
-        public DoubleJump(Texture2D texture, Vector2 position, int size) // Actual Player Constructor
+        public DoubleJump(List<Texture2D> textures, Vector2 position, int size) // Actual Player Constructor
         {
-            _texture = texture;
+            cloudTextures = textures;
+
+            _texture = textures[0];
             _color = Color.White;
             _position = position;
             _location = new Rectangle((int)_position.X, (int)_position.Y, size+10, size);
 
-        }
-        public Color Color
-        {
-            get { return _color; }
-            set { _color = value; }
         }
 
         public void Update(GameTime gameTime, Player stickman)

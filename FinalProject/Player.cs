@@ -33,7 +33,6 @@ namespace FinalProject
         private float _animationTimeStamp;
         private float _animationInterval = 0.06f;
         private float _animationTime;
-        private bool gravity = false;
 
         // Animations
         // Standing is 0
@@ -152,12 +151,12 @@ namespace FinalProject
                 {
                     float i = 1;
                     _velocity.Y -= 0.15f * i;
-                    gravity = true;
                 }
 
             }
 
             // Collision Rectangle Code
+
             _collisionRectangle.X = _location.X + 10;
             _collisionRectangle.Y = _location.Y;
 
