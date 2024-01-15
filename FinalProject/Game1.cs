@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading;
@@ -16,6 +17,8 @@ namespace FinalProject
         List<Texture2D> stickmanTextures;
         List<Texture2D> spinningBladeTextures;
         List<SpinningBlade> spinningBlades;
+        List<DoubleJump> doubleJumps;
+        Texture2D DoubleJumpTexture; // Delete Later
         Texture2D stickmanSpritesheet;
         Texture2D spawnPoint;
         Texture2D endPoint;
@@ -48,14 +51,17 @@ namespace FinalProject
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-      
             stickmanTextures = new List<Texture2D>();
-            spinningBladeTextures = new List<Texture2D>();  
+            spinningBladeTextures = new List<Texture2D>();
             screen = Screen.LevelOne; // CHANGE TO INTRO
             base.Initialize();
             stickman = new Player(stickmanTextures, 10, 450); // Testing Sprite
+
+            // Initialize all Lists
             barriers = new List<Rectangle>();
             spinningBlades = new List<SpinningBlade>();
+            doubleJumps = new List<DoubleJump>();
+
 
             if (screen == Screen.LevelOne)
             {         
@@ -64,6 +70,10 @@ namespace FinalProject
                 barriers.Add(new Rectangle(600, 400, 100, 20));
                 barriers.Add(new Rectangle(0, 410, 100, 20));
                 spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 300, 2, 50, true)); // How to add Blades
+                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 500, 2, 50, false));
+                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(500, 400), 500, 0, 50, false));
+                doubleJumps.Add(new DoubleJump(DoubleJumpTexture, new Vector2(400, 400),30));
+                doubleJumps.Add(new DoubleJump(DoubleJumpTexture, new Vector2(600, 340), 50));
             }
       
         }
@@ -73,17 +83,17 @@ namespace FinalProject
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             wallTexture = Content.Load<Texture2D>("rectangle");
             stickmanSpritesheet = Content.Load<Texture2D>("BlackStickmanRight");
-
+            DoubleJumpTexture = Content.Load<Texture2D>("frame_00_delay-0.2s");
             cordinates = Content.Load<SpriteFont>("Cordinates"); // Delete later 
 
 
             int width = stickmanSpritesheet.Width / 8;
             int height = stickmanSpritesheet.Height / 5;
 
-            // Jumping Textures
+            // Stickman Textures
 
             for (int y = 0; y < 5; y++)
-           {
+            {
                 for (int x = 0; x < 8; x++)
                 {
                     
@@ -99,6 +109,8 @@ namespace FinalProject
                 }
             }
 
+            // Spinning Blade Texture
+
             for (int i = 0; i < 3; i++)
             {
                 spinningBladeTextures.Add(Content.Load<Texture2D>($"frameSpinningBlade{i}"));
@@ -111,17 +123,9 @@ namespace FinalProject
 
         protected override void Update(GameTime gameTime)
         {
-
             mouseState = Mouse.GetState(); // Delete Later 
             xPosition = mouseState.X;
             yPosition = mouseState.Y;
-
-            foreach (SpinningBlade spinningBlade in spinningBlades)
-                if (spinningBlade.Collide(stickman.Location))
-                {
-                    stickman.XLocation = 10;                
-                }
-                   
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -130,8 +134,12 @@ namespace FinalProject
             if (screen == Screen.LevelOne)
             {
                 stickman.Update(gameTime, barriers);
+                
                 foreach (SpinningBlade spinningBlade in spinningBlades)
-                    spinningBlade.Update(gameTime);
+                    spinningBlade.Update(gameTime, stickman);
+
+                foreach (DoubleJump doubleJump in doubleJumps)
+                    doubleJump.Update(gameTime, stickman);
             }
 
 
@@ -143,6 +151,11 @@ namespace FinalProject
             GraphicsDevice.Clear(Color.White);
 
             _spriteBatch.Begin();
+
+            // Drawing 
+
+            foreach (DoubleJump doubleJump in doubleJumps)
+                doubleJump.Draw(_spriteBatch);
 
             stickman.Draw(_spriteBatch);
 

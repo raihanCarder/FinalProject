@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace FinalProject
 {
-    class Player
+    public class Player
     {
         Texture2D _texture;
         private List<Texture2D> _stickmanTextures;
@@ -21,6 +21,7 @@ namespace FinalProject
         private KeyboardState _keyboardState;
         private KeyboardState _oldstate;
         private Rectangle _location;
+        private Rectangle _collisionRectangle; // Update this rectangle with location rectangle except offset it then make all collision 
         private Vector2 _velocity;
         private bool _hasJumped = false;
         private bool _isRunning = false;
@@ -32,6 +33,7 @@ namespace FinalProject
         private float _animationTimeStamp;
         private float _animationInterval = 0.06f;
         private float _animationTime;
+        private bool gravity = false;
 
         // Animations
         // Standing is 0
@@ -42,6 +44,7 @@ namespace FinalProject
         {
             _stickmanTextures = stickmanTextures;
             _location = new Rectangle(x, y, 45, 45);
+            _collisionRectangle = new Rectangle(x + 10, y, 45/2, 45);
             _velocity = new Vector2();
             _direction = SpriteEffects.None;
             _texture = _stickmanTextures[frameCounter]; // In update always change Texture to texture wanted.
@@ -59,12 +62,23 @@ namespace FinalProject
         { get { return _location; }
           set { _location = value; }
         }
-
+        public Rectangle CollisonRectangle // Used for Collision
+        {
+            get { return _collisionRectangle; }
+            set { _collisionRectangle = value; }
+        }
         public int XLocation
         {
             get { return _location.X; }
             set { _location.X = value; }
         }
+
+        public int Frame
+        {
+            get { return frameCounter; }
+            set { frameCounter = value; }
+        }
+
         public float Yvelocity
         {
             get { return _velocity.Y; }
@@ -86,7 +100,12 @@ namespace FinalProject
         {
             return _location.Intersects(item);
         }
-    
+
+        public bool CollisionCollide(Rectangle item)
+        {
+            return _collisionRectangle.Intersects(item);
+        }
+
         public void Update(GameTime gameTime, List<Rectangle> barriers)
         {
 
@@ -94,7 +113,6 @@ namespace FinalProject
             KeyboardState newState = Keyboard.GetState();
             _grounded = false;
             _texture = _stickmanTextures[frameCounter];
-
 
             // Horizontal movement
             _location.X += (int)_velocity.X * (int)_acceleration;
@@ -134,9 +152,14 @@ namespace FinalProject
                 {
                     float i = 1;
                     _velocity.Y -= 0.15f * i;
+                    gravity = true;
                 }
 
             }
+
+            // Collision Rectangle Code
+            _collisionRectangle.X = _location.X + 10;
+            _collisionRectangle.Y = _location.Y;
 
             // Movement Code 
 

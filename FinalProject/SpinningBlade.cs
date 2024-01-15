@@ -14,7 +14,7 @@ using System.Threading;
 
 namespace FinalProject
 {
-    class SpinningBlade
+    public class SpinningBlade
     {
         private List<Texture2D> _spinningBladeTextures;
         private Texture2D _texture;
@@ -42,7 +42,7 @@ namespace FinalProject
             _velocity.Y = speed;
             
         }
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Player stickman)
         {
 
             // Movement
@@ -68,14 +68,46 @@ namespace FinalProject
 
             // Making Blade go back and forth
 
-            if (_location.X >= _endingDistance)
-            {
-                _velocity.X *= -1;
+            if (_horizontalDirection) {
+                if (_location.X >= _endingDistance)
+                {
+                    _velocity.X *= -1;
+                }
+                else if (_location.X <= _startingDistance)
+                {
+                    _velocity.X *= -1;
+                }
             }
-            else if (_location.X <= _startingDistance)
+            else
             {
-                _velocity.X *= -1;
+                if (_location.Y >= _endingDistance)
+                {
+                    _velocity.Y *= -1;
+                }
+                else if (_location.Y <= _startingDistance)
+                {
+                    _velocity.Y *= -1;
+                }
             }
+
+            // Intersects Player Code
+
+            if (stickman.Frame == 0 || stickman.Frame >=3 && stickman.Frame<=19)
+            {
+                if (_location.Intersects(stickman.CollisonRectangle))
+                {
+                    stickman.XLocation = 10;
+                }
+            }
+            else
+            {
+                if (_location.Intersects(stickman.Location))
+                {
+                    stickman.XLocation = 10;
+                }
+            }
+
+
         }
 
         public bool Collide(Rectangle item)
