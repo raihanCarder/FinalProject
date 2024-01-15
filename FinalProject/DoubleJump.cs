@@ -16,6 +16,7 @@ namespace FinalProject
         private Rectangle _location;
         private Color _color;
         private Vector2 _position;
+        private int _frameCounter;
 
         public DoubleJump(List<Texture2D> textures, Vector2 position, int size) // Actual Player Constructor
         {
