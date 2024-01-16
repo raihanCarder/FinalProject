@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FinalProject
 {
-    public class DoubleJump
+    public class DoubleJump // Clouds that player can use to Jump
     {
         private List<Texture2D> _cloudTextures;
         private Texture2D _texture;
