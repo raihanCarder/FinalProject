@@ -33,6 +33,7 @@ namespace FinalProject
         private float _animationTimeStamp;
         private float _animationInterval = 0.06f;
         private float _animationTime;
+        private Vector2 _spawnPoint;
 
         // Animations
         // Standing is 0
@@ -41,6 +42,7 @@ namespace FinalProject
 
         public Player(List<Texture2D> stickmanTextures,  int x, int y) // Actual Player Constructor
         {
+            _spawnPoint = new Vector2(x, y);
             _stickmanTextures = stickmanTextures;
             _location = new Rectangle(x, y, 45, 45);
             _collisionRectangle = new Rectangle(x + 10, y, 45/2, 45);
@@ -70,6 +72,17 @@ namespace FinalProject
         {
             get { return _location.X; }
             set { _location.X = value; }
+        }
+        public int YLocation
+        {
+            get { return _location.Y; }
+            set { _location.Y = value; }
+        }
+
+        public Vector2 SpawnPoint
+        {
+            get { return _spawnPoint; }
+            set { _spawnPoint = value; }
         }
 
         public int Frame

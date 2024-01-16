@@ -103,7 +103,8 @@ namespace FinalProject
             {
                 if (_location.Intersects(stickman.Location))
                 {
-                    stickman.XLocation = 10;
+                    stickman.XLocation = (int)stickman.SpawnPoint.X;
+                    stickman.YLocation = (int)stickman.SpawnPoint.Y;
                 }
             }
 

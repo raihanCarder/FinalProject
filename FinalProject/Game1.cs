@@ -76,9 +76,10 @@ namespace FinalProject
 
 
             if (screen == Screen.LevelOne)
-            {         
-                barriers.Add(new Rectangle(0, 495, 1100, 50));
-                //barriers.Add(new Rectangle(100, 460, 40, 200));
+            {
+                stickman.SpawnPoint = new Vector2(10, 10);
+
+                barriers.Add(new Rectangle(0, 495, 1100, 50));            
                 barriers.Add(new Rectangle(600, 400, 100, 20));
                 barriers.Add(new Rectangle(0, 410, 100, 20));
                 spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 300, 2, 50, true)); // How to add Blades
