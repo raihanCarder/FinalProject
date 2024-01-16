@@ -19,7 +19,9 @@ namespace FinalProject
         List<Texture2D> spinningBladeTextures;
         List<SpinningBlade> spinningBlades;
         List<DoubleJump> doubleJumps;
+        List<EndLevelDoor> endingDoors;
         List<Texture2D> doubleJumpTextures;
+        List<Texture2D> doorTextures;
         Texture2D stickmanSpritesheet;
         Texture2D spawnPoint;
         Texture2D endPoint;
@@ -58,6 +60,7 @@ namespace FinalProject
             stickmanTextures = new List<Texture2D>();
             spinningBladeTextures = new List<Texture2D>();
             doubleJumpTextures = new List<Texture2D>();
+            doorTextures = new List<Texture2D>();
 
             // Screen
 
@@ -72,12 +75,12 @@ namespace FinalProject
             barriers = new List<Rectangle>();
             spinningBlades = new List<SpinningBlade>();
             doubleJumps = new List<DoubleJump>();
-         
+            endingDoors = new List<EndLevelDoor>();
 
 
             if (screen == Screen.LevelOne)
             {
-                stickman.SpawnPoint = new Vector2(10, 10);
+                stickman.SpawnPoint = new Vector2(24, 452);
 
                 barriers.Add(new Rectangle(0, 495, 1100, 50));            
                 barriers.Add(new Rectangle(600, 400, 100, 20));
@@ -87,6 +90,7 @@ namespace FinalProject
                 spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(500, 400), 500, 0, 50, false));
                 doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(400, 400), 30));
                 doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(600, 340), 50));
+                endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(1000, 420),70));
             }
       
         }
@@ -128,10 +132,20 @@ namespace FinalProject
                 spinningBladeTextures.Add(Content.Load<Texture2D>($"frameSpinningBlade{i}"));
             }
 
+            // Cloud Textures
+
             for (int i = 0; i < 23; i++)
             {
                 doubleJumpTextures.Add(Content.Load<Texture2D>($"frame_{i}_delay-0.2s"));
             }
+
+            // Door Textures;
+
+            for (int i = 1; i < 5; i++)
+            {
+                doorTextures.Add(Content.Load<Texture2D>($"CroppedDoor-imageonline.co-63895-{i}"));
+            }
+
 
             // TODO: use this.Content to load your game content here
         }
@@ -155,6 +169,9 @@ namespace FinalProject
 
                 foreach (DoubleJump doubleJump in doubleJumps)
                     doubleJump.Update(gameTime, stickman);
+
+                foreach (EndLevelDoor endDoors in endingDoors)
+                    endDoors.Update(gameTime, stickman);
             }
 
 
@@ -172,13 +189,17 @@ namespace FinalProject
             foreach (DoubleJump doubleJump in doubleJumps)
                 doubleJump.Draw(_spriteBatch);
 
-            stickman.Draw(_spriteBatch);
+            foreach (EndLevelDoor endDoors in endingDoors)
+                endDoors.Draw(_spriteBatch);
 
             foreach (Rectangle barrier in barriers)
                 _spriteBatch.Draw(wallTexture, barrier, Color.Black);
 
             foreach (SpinningBlade spinningBlade in spinningBlades)
                 spinningBlade.Draw(_spriteBatch);
+
+            stickman.Draw(_spriteBatch);
+
 
             _spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(10, 10), Color.Black);         
 
