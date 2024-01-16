@@ -23,8 +23,6 @@ namespace FinalProject
         List<Texture2D> doubleJumpTextures;
         List<Texture2D> doorTextures;
         Texture2D stickmanSpritesheet;
-        Texture2D spawnPoint;
-        Texture2D endPoint;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         Player stickman;
@@ -68,7 +66,7 @@ namespace FinalProject
             base.Initialize();
           
             // Player
-            stickman = new Player(stickmanTextures, 10, 450); // Testing Sprite
+            stickman = new Player(stickmanTextures, 24, 400); // Testing Sprite
 
             // Initialize all other Lists
 
@@ -77,14 +75,17 @@ namespace FinalProject
             doubleJumps = new List<DoubleJump>();
             endingDoors = new List<EndLevelDoor>();
 
+            if (screen == Screen.Intro)
+            {
 
+
+            }
             if (screen == Screen.LevelOne)
             {
-                stickman.SpawnPoint = new Vector2(24, 452);
+                stickman.SpawnPoint = new Vector2(24, 400);
 
-                barriers.Add(new Rectangle(0, 495, 1100, 50));            
+                barriers.Add(new Rectangle(0, 450, 700, 20));            
                 barriers.Add(new Rectangle(600, 400, 100, 20));
-                barriers.Add(new Rectangle(0, 410, 100, 20));
                 spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 300, 2, 50, true)); // How to add Blades
                 spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 500, 2, 50, false));
                 spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(500, 400), 500, 0, 50, false));

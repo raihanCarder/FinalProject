@@ -47,7 +47,6 @@ namespace FinalProject
                 _texture = _doorTextures[_frameCounter];
             }
 
-
         }
 
 

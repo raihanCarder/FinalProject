@@ -45,7 +45,7 @@ namespace FinalProject
             _spawnPoint = new Vector2(x, y);
             _stickmanTextures = stickmanTextures;
             _location = new Rectangle(x, y, 45, 45);
-            _collisionRectangle = new Rectangle(x + 10, y+5, 45/2, 45-10);
+            _collisionRectangle = new Rectangle(x + 15, y+5, 15, 45-10);
             _velocity = new Vector2();
             _direction = SpriteEffects.None;
             _texture = _stickmanTextures[frameCounter]; // In update always change Texture to texture wanted.
@@ -170,7 +170,7 @@ namespace FinalProject
 
             // Collision Rectangle Code
 
-            _collisionRectangle.X = _location.X + 10;
+            _collisionRectangle.X = _location.X + 15;
             _collisionRectangle.Y = _location.Y+5;
 
             // Movement Code 
@@ -263,6 +263,14 @@ namespace FinalProject
             if (_velocity.X > 0)
             {
                 _direction = SpriteEffects.None;
+            }
+
+            // Makes it so when fallen off map it'll make you respawn
+
+            if (_location.Y > 520)
+            {
+                _location.X = (int)SpawnPoint.X;
+                _location.Y = (int)SpawnPoint.Y;
             }
 
            
