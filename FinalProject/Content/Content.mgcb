@@ -404,6 +404,9 @@
 /processorParam:TextureFormat=Color
 /build:frameSpinningBlade2.gif
 
+#begin GraffitiYouth-Regular.otf
+/copy:GraffitiYouth-Regular.otf
+
 #begin rectangle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -415,4 +418,11 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:rectangle.png
+
+#begin Title.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Title.spritefont
 

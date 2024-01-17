@@ -29,12 +29,17 @@ namespace FinalProject
         Texture2D wallTexture;
         Screen screen;
         MouseState mouseState;
+        KeyboardState keyboardState;
         int xPosition, yPosition;
         SpriteFont cordinates;
+        SpriteFont titleFont;
+        bool playingGame = false;
+
         enum Screen
         {
             Intro,
-            LevelOne
+            LevelOne,
+            LevelTwo
         }
 
         public Game1()
@@ -62,11 +67,8 @@ namespace FinalProject
 
             // Screen
 
-            screen = Screen.LevelOne; // CHANGE TO INTRO
+            screen = Screen.Intro; // CHANGE TO INTRO
             base.Initialize();
-          
-            // Player
-            stickman = new Player(stickmanTextures, 24, 400); // Testing Sprite
 
             // Initialize all other Lists
 
@@ -77,27 +79,28 @@ namespace FinalProject
 
             if (screen == Screen.Intro)
             {
-
+            
 
             }
             if (screen == Screen.LevelOne)
             {
-                stickman.SpawnPoint = new Vector2(24, 400);
+                //stickman.SpawnPoint = new Vector2(24, 400);
 
-                barriers.Add(new Rectangle(0, 450, 700, 20));            
-                barriers.Add(new Rectangle(600, 400, 100, 20));
-                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 300, 2, 50, true)); // How to add Blades
-                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 500, 2, 50, false));
-                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(500, 400), 500, 0, 50, false));
-                doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(400, 400), 30));
-                doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(600, 340), 50));
-                endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(1000, 420),70));
+                //barriers.Add(new Rectangle(0, 450, 700, 20));            
+                //barriers.Add(new Rectangle(600, 400, 100, 20));
+                //spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 300, 2, 50, true)); // How to add Blades
+                //spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 500, 2, 50, false));
+                //spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(500, 400), 500, 0, 50, false));
+                //doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(400, 400), 30));
+                //doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(600, 340), 50));
+                //endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(1000, 420),70));
             }
       
         }
 
         protected override void LoadContent()
         {
+            titleFont = Content.Load<SpriteFont>("Title");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             wallTexture = Content.Load<Texture2D>("rectangle");
             stickmanSpritesheet = Content.Load<Texture2D>("BlackStickmanRight");
@@ -153,6 +156,7 @@ namespace FinalProject
 
         protected override void Update(GameTime gameTime)
         {
+            keyboardState = Keyboard.GetState();
             mouseState = Mouse.GetState(); // Delete Later 
             xPosition = mouseState.X;
             yPosition = mouseState.Y;
@@ -161,10 +165,37 @@ namespace FinalProject
                 Exit();
             // TODO: Add your update logic here
 
-            if (screen == Screen.LevelOne)
+
+            if (screen == Screen.Intro)
+            {
+                if (keyboardState.IsKeyDown(Keys.Space)) // Change to a Click that makes them go to first level
+                {
+                    screen = Screen.LevelOne;
+                    playingGame = true;
+                    stickman = new Player(stickmanTextures, 24, 400);
+
+                    stickman.SpawnPoint = new Vector2(24, 400);
+                    barriers.Add(new Rectangle(0, 450, 700, 20));
+                    barriers.Add(new Rectangle(600, 400, 100, 20));
+                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 300, 2, 50, true)); // How to add Blades
+                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 500, 2, 50, false));
+                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(500, 400), 500, 0, 50, false));
+                    doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(400, 400), 30));
+                    doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(600, 340), 50));
+                    endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(400, 420), 70));
+                }
+
+
+            }
+            else if (screen == Screen.LevelOne)
+            {
+               
+            }
+
+            if (playingGame)
             {
                 stickman.Update(gameTime, barriers);
-                
+
                 foreach (SpinningBlade spinningBlade in spinningBlades)
                     spinningBlade.Update(gameTime, stickman);
 
@@ -174,7 +205,6 @@ namespace FinalProject
                 foreach (EndLevelDoor endDoors in endingDoors)
                     endDoors.Update(gameTime, stickman);
             }
-
 
             base.Update(gameTime);
         }
@@ -187,6 +217,33 @@ namespace FinalProject
 
             // Drawing 
 
+            if (screen == Screen.Intro)
+            {
+                _spriteBatch.DrawString(titleFont, "Stickman", new Vector2(400, 10), Color.Black);
+            }
+            else if (screen == Screen.LevelOne)
+            {
+                if (endingDoors[0].AdvanceLevel)
+                {
+                    screen = Screen.LevelTwo;
+                    barriers.Clear();
+                    spinningBlades.Clear();
+                    endingDoors.Clear();
+                    doubleJumps.Clear();
+
+                    // New level Code make Sure to Move Stickman to new Spawnpoint;
+
+                    barriers.Add(new Rectangle(0, 450, 700, 20));
+                    barriers.Add(new Rectangle(600, 400, 100, 20));
+                }
+            }
+            else if (screen == Screen.LevelTwo)
+            {
+
+            }
+
+            if (playingGame)
+            { 
             foreach (DoubleJump doubleJump in doubleJumps)
                 doubleJump.Draw(_spriteBatch);
 
@@ -200,6 +257,7 @@ namespace FinalProject
                 spinningBlade.Draw(_spriteBatch);
 
             stickman.Draw(_spriteBatch);
+            }
 
 
             _spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(10, 10), Color.Black);         

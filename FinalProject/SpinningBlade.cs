@@ -92,23 +92,15 @@ namespace FinalProject
 
             // Intersects Player Code
 
-            if (stickman.Frame == 0 || stickman.Frame >=3 && stickman.Frame<=19)
+            if (_location.Intersects(stickman.CollisonRectangle))
             {
-                if (_location.Intersects(stickman.CollisonRectangle))
-                {
-                    stickman.XLocation = 10;
-                }
+                stickman.isJumping = false;
+                stickman.Yvelocity = 0;
+                stickman.Xvelocity = 0;
+                stickman.XLocation = (int)stickman.SpawnPoint.X;
+                stickman.YLocation = (int)stickman.SpawnPoint.Y;
             }
-            else
-            {
-                if (_location.Intersects(stickman.Location))
-                {
-                    stickman.XLocation = (int)stickman.SpawnPoint.X;
-                    stickman.YLocation = (int)stickman.SpawnPoint.Y;
-                }
-            }
-
-
+            
         }
 
         public bool Collide(Rectangle item)

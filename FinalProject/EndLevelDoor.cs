@@ -19,7 +19,8 @@ namespace FinalProject
         private float _animationTimeStamp;
         private float _animationInterval = 0.3f;
         private float _animationTime;
-
+        private bool _advance;
+        private float _endingTime;
         public EndLevelDoor(List<Texture2D> textures, Vector2 position, int size)
         {
           _doorTextures = textures;
@@ -47,8 +48,22 @@ namespace FinalProject
                 _texture = _doorTextures[_frameCounter];
             }
 
-        }
+            if (_frameCounter == 4 && _collisionRectangle.Intersects(stickman.CollisonRectangle))
+            {
+                _endingTime = (float)gameTime.TotalGameTime.TotalSeconds;
+                if (_endingTime > 3)
+                {
+                    _advance = true;
+                }
+            }
 
+
+        }
+        public bool AdvanceLevel
+        {
+            get { return _advance; }
+            set { _advance = value; }
+        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
