@@ -189,7 +189,19 @@ namespace FinalProject
             }
             else if (screen == Screen.LevelOne)
             {
-               
+                if (endingDoors[0].AdvanceLevel)
+                {
+                    screen = Screen.LevelTwo;
+                    barriers.Clear();
+                    spinningBlades.Clear();
+                    endingDoors.Clear();
+                    doubleJumps.Clear();
+
+                    // New level Code make Sure to Move Stickman to new Spawnpoint;
+
+                    barriers.Add(new Rectangle(0, 450, 700, 20));
+                    barriers.Add(new Rectangle(600, 400, 100, 20));
+                }
             }
 
             if (playingGame)
@@ -223,19 +235,7 @@ namespace FinalProject
             }
             else if (screen == Screen.LevelOne)
             {
-                if (endingDoors[0].AdvanceLevel)
-                {
-                    screen = Screen.LevelTwo;
-                    barriers.Clear();
-                    spinningBlades.Clear();
-                    endingDoors.Clear();
-                    doubleJumps.Clear();
-
-                    // New level Code make Sure to Move Stickman to new Spawnpoint;
-
-                    barriers.Add(new Rectangle(0, 450, 700, 20));
-                    barriers.Add(new Rectangle(600, 400, 100, 20));
-                }
+               
             }
             else if (screen == Screen.LevelTwo)
             {
