@@ -25,7 +25,7 @@ namespace FinalProject
         private Vector2 _velocity;
         private bool _hasJumped = false;
         private bool _isRunning = false;
-        private int _speedX = 4;
+        private int _speedX = 5;
         private float _acceleration = 1.05f;
         private SpriteEffects _direction;
         private bool _grounded;
@@ -70,13 +70,13 @@ namespace FinalProject
         }
         public int XLocation
         {
-            get { return _location.X; }
-            set { _location.X = value; }
+            get { return _collisionRectangle.X; }
+            set { _collisionRectangle.X = value; }
         }
         public int YLocation
         {
-            get { return _location.Y; }
-            set { _location.Y = value; }
+            get { return _collisionRectangle.Y; }
+            set { _collisionRectangle.Y = value; }
         }
 
         public Vector2 SpawnPoint
@@ -125,26 +125,32 @@ namespace FinalProject
             KeyboardState newState = Keyboard.GetState();
             _grounded = false;
             _texture = _stickmanTextures[frameCounter];
+            _location.X = _collisionRectangle.X - 15;
+            _location.Y = _collisionRectangle.Y - 10;
 
             // Horizontal movement
-            _location.X += (int)_velocity.X * (int)_acceleration;
+            //_location.X += (int)_velocity.X * (int)_acceleration;
+            _collisionRectangle.X += (int)_velocity.X;
 
             foreach (Rectangle barrier in barriers)
-                if (this.Collide(barrier))
-                    _location.X -= (int)_velocity.X * (int)_acceleration;
+                if (this.CollisionCollide(barrier))
+                    _collisionRectangle.X -= (int)_velocity.X * (int)_acceleration;
+            //_location.X -= (int)_velocity.X * (int)_acceleration;
 
             // Vertical Movement
-            _location.Y += (int)_velocity.Y;
+            //_location.Y += (int)_velocity.Y;
+            _collisionRectangle.Y += (int)_velocity.Y;
 
             foreach (Rectangle barrier in barriers)
             {
-                if (this.Collide(barrier))
+                if (this.CollisionCollide(barrier))
                 {
                     if (_velocity.Y > 0) // makes it so you can go thru the floor when platforming
                     {
                         _velocity.Y = 0;
                         _hasJumped = false;
-                        _location.Y = barrier.Y - _location.Height;
+                        //_location.Y = barrier.Y - _location.Height;
+                        _collisionRectangle.Y = barrier.Y - _collisionRectangle.Height;
                         if (_velocity.X != 0)
                         {
                             _isRunning = true;
@@ -160,7 +166,7 @@ namespace FinalProject
 
                 }
 
-                if (!this.Collide(barrier) && _velocity.Y == 0)
+                if (!this.CollisionCollide(barrier) && _velocity.Y == 0)
                 {
                     float i = 1;
                     _velocity.Y -= 0.15f * i;
@@ -170,8 +176,11 @@ namespace FinalProject
 
             // Collision Rectangle Code
 
-            _collisionRectangle.X = _location.X + 15;
-            _collisionRectangle.Y = _location.Y+5;
+            //_collisionRectangle.X = _location.X + 15;
+            //_collisionRectangle.Y = _location.Y + 5;
+
+            _location.X = _collisionRectangle.X - 15;
+            _location.Y = _collisionRectangle.Y - 8;
 
             // Movement Code 
 
@@ -219,7 +228,8 @@ namespace FinalProject
             {
                 _isRunning = false;
                 frameCounter = 3; // Start of Jump
-                _location.Y -= 20;
+                //_location.Y -= 20;
+                _collisionRectangle.Y -= 20;
                 _velocity.Y = -5f;
                 _hasJumped = true;
             }
@@ -269,8 +279,11 @@ namespace FinalProject
 
             if (_location.Y > 520)
             {
-                _location.X = (int)SpawnPoint.X;
-                _location.Y = (int)SpawnPoint.Y;
+                //_location.X = (int)SpawnPoint.X;
+                //_location.Y = (int)SpawnPoint.Y;
+
+                _collisionRectangle.X = (int)SpawnPoint.X;
+                _collisionRectangle.Y = (int)SpawnPoint.Y;
             }
 
            

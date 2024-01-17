@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.IO;
@@ -176,13 +177,13 @@ namespace FinalProject
 
                     stickman.SpawnPoint = new Vector2(24, 400);
                     barriers.Add(new Rectangle(0, 450, 700, 20));
-                    barriers.Add(new Rectangle(600, 400, 100, 20));
+                    barriers.Add(new Rectangle(600, 380, 100, 20));
                     spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 300, 2, 50, true)); // How to add Blades
                     spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 500, 2, 50, false));
                     spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(500, 400), 500, 0, 50, false));
                     doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(400, 400), 30));
                     doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(600, 340), 50));
-                    endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(400, 420), 70));
+                    endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(350, 375), 70));
                 }
 
 
@@ -226,7 +227,7 @@ namespace FinalProject
             GraphicsDevice.Clear(Color.White);
 
             _spriteBatch.Begin();
-
+            
             // Drawing 
 
             if (screen == Screen.Intro)
@@ -243,20 +244,18 @@ namespace FinalProject
             }
 
             if (playingGame)
-            { 
-            foreach (DoubleJump doubleJump in doubleJumps)
-                doubleJump.Draw(_spriteBatch);
+            {
 
-            foreach (EndLevelDoor endDoors in endingDoors)
-                endDoors.Draw(_spriteBatch);
+                foreach (EndLevelDoor endDoors in endingDoors)
+                    endDoors.Draw(_spriteBatch);
+                foreach (DoubleJump doubleJump in doubleJumps)
+                    doubleJump.Draw(_spriteBatch);
+                foreach (Rectangle barrier in barriers)
+                   _spriteBatch.Draw(wallTexture, barrier, Color.Black);
+                foreach (SpinningBlade spinningBlade in spinningBlades)
+                   spinningBlade.Draw(_spriteBatch);
 
-            foreach (Rectangle barrier in barriers)
-                _spriteBatch.Draw(wallTexture, barrier, Color.Black);
-
-            foreach (SpinningBlade spinningBlade in spinningBlades)
-                spinningBlade.Draw(_spriteBatch);
-
-            stickman.Draw(_spriteBatch);
+                    stickman.Draw(_spriteBatch);
             }
 
 
