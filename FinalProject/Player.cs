@@ -129,16 +129,14 @@ namespace FinalProject
             _location.Y = _collisionRectangle.Y - 10;
 
             // Horizontal movement
-            //_location.X += (int)_velocity.X * (int)_acceleration;
             _collisionRectangle.X += (int)_velocity.X;
 
             foreach (Rectangle barrier in barriers)
                 if (this.CollisionCollide(barrier))
                     _collisionRectangle.X -= (int)_velocity.X * (int)_acceleration;
-            //_location.X -= (int)_velocity.X * (int)_acceleration;
+
 
             // Vertical Movement
-            //_location.Y += (int)_velocity.Y;
             _collisionRectangle.Y += (int)_velocity.Y;
 
             foreach (Rectangle barrier in barriers)
@@ -149,7 +147,6 @@ namespace FinalProject
                     {
                         _velocity.Y = 0;
                         _hasJumped = false;
-                        //_location.Y = barrier.Y - _location.Height;
                         _collisionRectangle.Y = barrier.Y - _collisionRectangle.Height;
                         if (_velocity.X != 0)
                         {
@@ -176,9 +173,6 @@ namespace FinalProject
 
             // Collision Rectangle Code
 
-            //_collisionRectangle.X = _location.X + 15;
-            //_collisionRectangle.Y = _location.Y + 5;
-
             _location.X = _collisionRectangle.X - 15;
             _location.Y = _collisionRectangle.Y - 8;
 
@@ -192,7 +186,7 @@ namespace FinalProject
                 frameCounter = 31;
             }
 
-            if (_isRunning /*&& _velocity.Y != 0*/)
+            if (_isRunning)
             {          
                 _animationTime = (float)gameTime.TotalGameTime.TotalSeconds - _animationTimeStamp;
                 if (_animationTime > _animationInterval)
@@ -227,8 +221,7 @@ namespace FinalProject
             if (Keyboard.GetState().IsKeyDown(Keys.Space) && _hasJumped == false)
             {
                 _isRunning = false;
-                frameCounter = 3; // Start of Jump
-                //_location.Y -= 20;
+                frameCounter = 3; // Start of Jump           
                 _collisionRectangle.Y -= 20;
                 _velocity.Y = -5f;
                 _hasJumped = true;
@@ -275,13 +268,10 @@ namespace FinalProject
                 _direction = SpriteEffects.None;
             }
 
-            // Makes it so when fallen off map it'll make you respawn
+            // When fallen off map it'll make you respawn
 
             if (_location.Y > 520)
-            {
-                //_location.X = (int)SpawnPoint.X;
-                //_location.Y = (int)SpawnPoint.Y;
-
+            {             
                 _collisionRectangle.X = (int)SpawnPoint.X;
                 _collisionRectangle.Y = (int)SpawnPoint.Y;
             }

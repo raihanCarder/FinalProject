@@ -35,10 +35,17 @@ namespace FinalProject
         SpriteFont cordinates;
         SpriteFont titleFont;
         bool playingGame = false;
+        Rectangle playRect, controlsRect, creditsRect, levelSelectRect;
+        Texture2D playTexture1, playTexture2, controlsTexture1, controlsTexture2, creditsTexture1, creditsTexture2, levelSelectTexture1,levelSelectTexture2, levelSelectTexture, playTexture, creditsTexture, controlsTexture;
+        Vector2 mouseLocation;
+
 
         enum Screen
         {
             Intro,
+            Controls,
+            Credits,
+            LevelSelect,
             LevelOne,
             LevelTwo
         }
@@ -59,6 +66,14 @@ namespace FinalProject
         {
             // TODO: Add your initialization logic here
 
+            // Button Rectangles
+
+            playRect = new Rectangle(100,100,200,70);
+            controlsRect = new Rectangle(400, 100, 70, 40);
+            creditsRect = new Rectangle(600, 100, 70, 40);
+            levelSelectRect = new Rectangle(800, 100, 200,70);
+
+
             // Texture 2D lists
 
             stickmanTextures = new List<Texture2D>();
@@ -77,30 +92,20 @@ namespace FinalProject
             spinningBlades = new List<SpinningBlade>();
             doubleJumps = new List<DoubleJump>();
             endingDoors = new List<EndLevelDoor>();
-
-            if (screen == Screen.Intro)
-            {
-            
-
-            }
-            if (screen == Screen.LevelOne)
-            {
-                //stickman.SpawnPoint = new Vector2(24, 400);
-
-                //barriers.Add(new Rectangle(0, 450, 700, 20));            
-                //barriers.Add(new Rectangle(600, 400, 100, 20));
-                //spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 300, 2, 50, true)); // How to add Blades
-                //spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 500, 2, 50, false));
-                //spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(500, 400), 500, 0, 50, false));
-                //doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(400, 400), 30));
-                //doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(600, 340), 50));
-                //endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(1000, 420),70));
-            }
-      
+     
         }
 
         protected override void LoadContent()
         {
+            // Loading Content
+            controlsTexture1 = Content.Load<Texture2D>("button_controls");
+            controlsTexture2 = Content.Load<Texture2D>("button_controls (1)");
+            levelSelectTexture1 = Content.Load<Texture2D>("button_level-select");
+            levelSelectTexture2 = Content.Load<Texture2D>("button_level-select (1)");
+            playTexture1 = Content.Load<Texture2D>("button_play");
+            playTexture2 = Content.Load<Texture2D>("button_play (1)");
+            creditsTexture1 = Content.Load<Texture2D>("button_credits");
+            creditsTexture2 = Content.Load<Texture2D>("button_credits (1)");
             titleFont = Content.Load<SpriteFont>("Title");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             wallTexture = Content.Load<Texture2D>("rectangle");
@@ -159,19 +164,55 @@ namespace FinalProject
         {
             keyboardState = Keyboard.GetState();
             mouseState = Mouse.GetState(); // Delete Later 
+            mouseLocation = new Vector2(mouseState.X, mouseState.Y);
             xPosition = mouseState.X;
             yPosition = mouseState.Y;
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
             // TODO: Add your update logic here
 
 
             if (screen == Screen.Intro)
             {
-                if (keyboardState.IsKeyDown(Keys.Space)) // Change to a Click that makes them go to first level
+                if (mouseState.LeftButton == ButtonState.Pressed && levelSelectRect.Contains(mouseLocation))
+                {
+                    screen = Screen.LevelSelect;
+                    levelSelectTexture = levelSelectTexture2;
+
+                }
+                else if (levelSelectRect.Contains(mouseLocation))
+                {
+                    levelSelectTexture = levelSelectTexture1;
+                }
+                else
+                {
+                    levelSelectTexture = levelSelectTexture2;
+                }
+
+                if (mouseState.LeftButton == ButtonState.Pressed && controlsRect.Contains(mouseLocation))
+                {
+                    screen = Screen.LevelSelect;
+                    controlsTexture = controlsTexture2;
+
+                }
+                else if (controlsRect.Contains(mouseLocation))
+                {
+                    controlsTexture = controlsTexture1;
+                }
+                else
+                {
+                    controlsTexture = controlsTexture2;
+                }
+
+                if (mouseState.LeftButton == ButtonState.Pressed && playRect.Contains(mouseLocation))
                 {
                     screen = Screen.LevelOne;
+                    playTexture = playTexture2;
+
+                    // Initializes Level One Code
+
                     playingGame = true;
                     stickman = new Player(stickmanTextures, 24, 400);
 
@@ -184,8 +225,17 @@ namespace FinalProject
                     doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(400, 400), 30));
                     doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(600, 340), 50));
                     endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(350, 375), 70));
-                }
 
+                }
+                else if (playRect.Contains(mouseLocation))
+                {
+                    playTexture = playTexture1;
+                }
+                else
+                {
+                    playTexture = playTexture2;
+                }
+                
 
             }
             else if (screen == Screen.LevelOne)
@@ -233,6 +283,9 @@ namespace FinalProject
             if (screen == Screen.Intro)
             {
                 _spriteBatch.DrawString(titleFont, "Stickman", new Vector2(400, 10), Color.Black);
+                _spriteBatch.Draw(levelSelectTexture, levelSelectRect, Color.White);
+                _spriteBatch.Draw(playTexture, playRect, Color.White);
+                _spriteBatch.Draw(controlsTexture, controlsRect, Color.White);
             }
             else if (screen == Screen.LevelOne)
             {
@@ -245,7 +298,6 @@ namespace FinalProject
 
             if (playingGame)
             {
-
                 foreach (EndLevelDoor endDoors in endingDoors)
                     endDoors.Draw(_spriteBatch);
                 foreach (DoubleJump doubleJump in doubleJumps)
