@@ -176,7 +176,7 @@ namespace FinalProject
 
             if (screen == Screen.Intro)
             {
-                if (mouseState.LeftButton == ButtonState.Pressed && levelSelectRect.Contains(mouseLocation))
+                if (mouseState.LeftButton == ButtonState.Pressed && levelSelectRect.Contains(mouseLocation)) // Level Select Button
                 {
                     screen = Screen.LevelSelect;
                     levelSelectTexture = levelSelectTexture2;
@@ -191,7 +191,7 @@ namespace FinalProject
                     levelSelectTexture = levelSelectTexture2;
                 }
 
-                if (mouseState.LeftButton == ButtonState.Pressed && controlsRect.Contains(mouseLocation))
+                if (mouseState.LeftButton == ButtonState.Pressed && controlsRect.Contains(mouseLocation)) // Controls Button
                 {
                     screen = Screen.LevelSelect;
                     controlsTexture = controlsTexture2;
@@ -206,7 +206,23 @@ namespace FinalProject
                     controlsTexture = controlsTexture2;
                 }
 
-                if (mouseState.LeftButton == ButtonState.Pressed && playRect.Contains(mouseLocation))
+                if (mouseState.LeftButton == ButtonState.Pressed && creditsRect.Contains(mouseLocation))
+                {
+                    screen = Screen.Credits;
+                    creditsTexture = creditsTexture2;
+
+                }
+                else if (controlsRect.Contains(mouseLocation))
+                {
+                    creditsTexture = creditsTexture1;
+
+                }
+                else
+                {
+                    creditsTexture = creditsTexture2;
+                }
+
+                if (mouseState.LeftButton == ButtonState.Pressed && playRect.Contains(mouseLocation)) // Play Button
                 {
                     screen = Screen.LevelOne;
                     playTexture = playTexture2;
@@ -286,6 +302,7 @@ namespace FinalProject
                 _spriteBatch.Draw(levelSelectTexture, levelSelectRect, Color.White);
                 _spriteBatch.Draw(playTexture, playRect, Color.White);
                 _spriteBatch.Draw(controlsTexture, controlsRect, Color.White);
+                _spriteBatch.Draw(creditsTexture, creditsRect, Color.White);
             }
             else if (screen == Screen.LevelOne)
             {
