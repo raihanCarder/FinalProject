@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace FinalProject
 {
@@ -147,7 +148,9 @@ namespace FinalProject
                     {
                         _velocity.Y = 0;
                         _hasJumped = false;
-                        _collisionRectangle.Y = barrier.Y - _collisionRectangle.Height;
+
+                        //_collisionRectangle.Y = barrier.Y - _collisionRectangle.Height;
+
                         if (_velocity.X != 0)
                         {
                             _isRunning = true;
@@ -155,11 +158,18 @@ namespace FinalProject
                                 frameCounter = 31;
 
                         }
-                    }              
+                    }
 
                     if (_velocity.Y == 0)
-                        _grounded = true;
+                        _collisionRectangle.Y = barrier.Y - _collisionRectangle.Height;
 
+
+                    if (_velocity.Y == 0)
+                    {
+                        _grounded = true;
+                    }
+
+   
 
                 }
 

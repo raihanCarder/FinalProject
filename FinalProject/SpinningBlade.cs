@@ -20,8 +20,10 @@ namespace FinalProject // YUH
         private Texture2D _texture;
         private Rectangle _location;
         private Vector2 _velocity;
+        private Vector2 _spawnPoint;
         private int _endingDistance;
-        private float _startingDistance;// Maybe Make Vector 2 Like Other Class
+        private float _startingDistanceX;// Maybe Make Vector 2 Like Other Class
+        private float _startingDistanceY;
         private bool _horizontalDirection;
         private int _frameCounter = 0;
         private float _animationTimeStamp;
@@ -34,7 +36,7 @@ namespace FinalProject // YUH
             _spinningBladeTextures = bladeTextures;
             _endingDistance = endingPoint;
             _location = new Rectangle((int)spawnPoint.X, (int)spawnPoint.Y, size, size);
-            _startingDistance = spawnPoint.X;
+            _spawnPoint = new Vector2(spawnPoint.X, spawnPoint.Y);     
             _velocity = new Vector2();
             _texture = bladeTextures[_frameCounter];
             _horizontalDirection = horizontalDirection;
@@ -48,9 +50,15 @@ namespace FinalProject // YUH
             // Movement
 
             if (_horizontalDirection)
+            {
+                _startingDistanceX = _spawnPoint.X;
                 _location.X += (int)_velocity.X;
+            }
             else
+            {
+                _startingDistanceY = _spawnPoint.Y;
                 _location.Y += (int)_velocity.Y;
+            }
 
             // Animation
 
@@ -68,23 +76,24 @@ namespace FinalProject // YUH
 
             // Making Blade go back and forth
 
-            if (_horizontalDirection) {
+            if (_horizontalDirection) 
+            {
                 if (_location.X >= _endingDistance)
                 {
                     _velocity.X *= -1;
                 }
-                else if (_location.X <= _startingDistance)
+                else if (_location.X <= _startingDistanceX)
                 {
                     _velocity.X *= -1;
                 }
             }
-            else
+            else if (!_horizontalDirection)
             {
                 if (_location.Y >= _endingDistance)
                 {
                     _velocity.Y *= -1;
                 }
-                else if (_location.Y <= _startingDistance)
+                else if (_location.Y <= _startingDistanceY)
                 {
                     _velocity.Y *= -1;
                 }

@@ -212,7 +212,7 @@ namespace FinalProject
                     creditsTexture = creditsTexture2;
 
                 }
-                else if (controlsRect.Contains(mouseLocation))
+                else if (creditsRect.Contains(mouseLocation))
                 {
                     creditsTexture = creditsTexture1;
 
@@ -230,16 +230,20 @@ namespace FinalProject
                     // Initializes Level One Code
 
                     playingGame = true;
-                    stickman = new Player(stickmanTextures, 24, 400);
+                    stickman = new Player(stickmanTextures, 24, 152);
 
-                    stickman.SpawnPoint = new Vector2(24, 400);
-                    barriers.Add(new Rectangle(0, 450, 700, 20));
+                    stickman.SpawnPoint = new Vector2(24, 152);
+                    barriers.Add(new Rectangle(0, 202, 100, 20));
                     barriers.Add(new Rectangle(600, 380, 100, 20));
-                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 300, 2, 50, true)); // How to add Blades
-                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 300), 500, 2, 50, false));
-                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(500, 400), 500, 0, 50, false));
-                    doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(400, 400), 30));
-                    doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(600, 340), 50));
+                    barriers.Add(new Rectangle(200, 0, 20, 200));
+                    barriers.Add(new Rectangle(0,0, 20, 500));
+                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(100, 300), 300, 2, 50, true)); // 
+                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 0), 300, 3, 50, false)); // False means vertical
+                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(100, 0), 300, 3, 50, false));
+                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(430, 307), 500, 0, 50, false));
+                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(200, 195), 500, 0, 20, false));
+                    doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(400, 307), 30));
+                    doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(187, 300), 30));
                     endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(350, 375), 70));
 
                 }
@@ -328,7 +332,7 @@ namespace FinalProject
             }
 
 
-            _spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(10, 10), Color.Black);         
+            _spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(30, 10), Color.Black);         
 
             _spriteBatch.End();
 
