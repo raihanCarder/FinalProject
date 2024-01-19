@@ -47,7 +47,8 @@ namespace FinalProject
             Credits,
             LevelSelect,
             LevelOne,
-            LevelTwo
+            LevelTwo,
+            LevelThree
         }
 
         public Game1()
@@ -69,10 +70,9 @@ namespace FinalProject
             // Button Rectangles
 
             playRect = new Rectangle(100,100,200,70);
-            controlsRect = new Rectangle(400, 100, 70, 40);
-            creditsRect = new Rectangle(600, 100, 70, 40);
-            levelSelectRect = new Rectangle(800, 100, 200,70);
-
+            controlsRect = new Rectangle(100, 400, 200, 70);
+            creditsRect = new Rectangle(100, 300, 200, 70);
+            levelSelectRect = new Rectangle(100, 200, 200,70);
 
             // Texture 2D lists
 
@@ -83,7 +83,7 @@ namespace FinalProject
 
             // Screen
 
-            screen = Screen.Intro; // CHANGE TO INTRO
+            screen = Screen.Intro; // CHANGE TO INTRO          
             base.Initialize();
 
             // Initialize all other Lists
@@ -224,28 +224,24 @@ namespace FinalProject
 
                 if (mouseState.LeftButton == ButtonState.Pressed && playRect.Contains(mouseLocation)) // Play Button
                 {
+
                     screen = Screen.LevelOne;
                     playTexture = playTexture2;
 
                     // Initializes Level One Code
 
                     playingGame = true;
-                    stickman = new Player(stickmanTextures, 24, 152);
+                    stickman = new Player(stickmanTextures, 24, 400);
+                    stickman.SpawnPoint = new Vector2(24, 400);
 
-                    stickman.SpawnPoint = new Vector2(24, 152);
-                    barriers.Add(new Rectangle(0, 202, 100, 20));
-                    barriers.Add(new Rectangle(600, 380, 100, 20));
-                    barriers.Add(new Rectangle(200, 0, 20, 200));
-                    barriers.Add(new Rectangle(0,0, 20, 500));
-                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(100, 300), 300, 2, 50, true)); // 
-                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 0), 300, 3, 50, false)); // False means vertical
-                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(100, 0), 300, 3, 50, false));
-                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(430, 307), 500, 0, 50, false));
-                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(200, 195), 500, 0, 20, false));
-                    doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(400, 307), 30));
-                    doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(187, 300), 30));
-                    endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(350, 375), 70));
-
+                    barriers.Add(new Rectangle(0, 0, 20, 500));
+                    barriers.Add(new Rectangle(1080, 0, 20, 500));
+                    barriers.Add(new Rectangle(0, 450, 317, 20));
+                    barriers.Add(new Rectangle(480, 450, 550, 20));
+                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(100, 410), 300, 0, 50, true));
+                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(100, 355), 300, 3, 50, true));
+                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(480, 410), 900, 5, 50, true));
+                    endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(980, 380), 70));
                 }
                 else if (playRect.Contains(mouseLocation))
                 {
@@ -255,7 +251,7 @@ namespace FinalProject
                 {
                     playTexture = playTexture2;
                 }
-                
+
 
             }
             else if (screen == Screen.LevelOne)
@@ -270,8 +266,37 @@ namespace FinalProject
 
                     // New level Code make Sure to Move Stickman to new Spawnpoint;
 
-                    barriers.Add(new Rectangle(0, 450, 700, 20));
-                    barriers.Add(new Rectangle(600, 400, 100, 20));
+                    stickman = new Player(stickmanTextures, 24, 152);
+
+                    stickman.SpawnPoint = new Vector2(24, 152);
+
+                    barriers.Add(new Rectangle(1080, 0, 20, 500));
+                    barriers.Add(new Rectangle(0, 202, 100, 20));
+                    barriers.Add(new Rectangle(600, 200, 100, 20));
+                    barriers.Add(new Rectangle(600, 200, 20, 300));
+                    barriers.Add(new Rectangle(200, 0, 20, 200));
+                    barriers.Add(new Rectangle(0, 0, 20, 500));
+                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(100, 300), 300, 2, 50, true)); // Indicates horizontal Direction
+                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(150, 0), 300, 3, 50, false));
+                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(100, 0), 300, 3, 50, false));
+                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(430, 230), 500, 0, 50, false));
+                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(200, 195), 500, 0, 20, false));
+                    spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(580, 0), 500, 6, 50, false));
+                    doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(400, 230), 30));
+                    doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(187, 300), 30));
+                    endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(350, 375), 70));
+                }
+            }
+            else if (screen == Screen.LevelTwo)
+            {
+                if (endingDoors[0].AdvanceLevel)
+                {
+                    screen = Screen.LevelThree;
+                    barriers.Clear();
+                    spinningBlades.Clear();
+                    endingDoors.Clear();
+                    doubleJumps.Clear();
+
                 }
             }
 
@@ -313,6 +338,10 @@ namespace FinalProject
                
             }
             else if (screen == Screen.LevelTwo)
+            {
+
+            }
+            else if (screen == Screen.LevelThree)
             {
 
             }

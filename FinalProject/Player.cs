@@ -26,7 +26,7 @@ namespace FinalProject
         private Vector2 _velocity;
         private bool _hasJumped = false;
         private bool _isRunning = false;
-        private int _speedX = 5;
+        private int _speedX = 4;
         private float _acceleration = 1.05f;
         private SpriteEffects _direction;
         private bool _grounded;
