@@ -29,12 +29,14 @@ namespace FinalProject
         private int _speedX = 4;
         private float _acceleration = 1.05f;
         private SpriteEffects _direction;
-        private bool _grounded;
+        private bool _grounded, _intersectingCloud;
         private int frameCounter = 0;
         private float _animationTimeStamp;
         private float _animationInterval = 0.06f;
         private float _animationTime;
         private Vector2 _spawnPoint;
+
+        
 
         // Animations
         // Standing is 0
@@ -60,10 +62,6 @@ namespace FinalProject
             _direction = SpriteEffects.None;
         }
 
-        public Rectangle Location
-        { get { return _location; }
-          set { _location = value; }
-        }
         public Rectangle CollisonRectangle // Used for Collision
         {
             get { return _collisionRectangle; }
@@ -85,13 +83,6 @@ namespace FinalProject
             get { return _spawnPoint; }
             set { _spawnPoint = value; }
         }
-
-        public int Frame
-        {
-            get { return frameCounter; }
-            set { frameCounter = value; }
-        }
-
         public float Yvelocity
         {
             get { return _velocity.Y; }
@@ -109,14 +100,15 @@ namespace FinalProject
             set { _hasJumped = value;}
         }
 
-        public bool Collide(Rectangle item)
-        {
-            return _location.Intersects(item);
-        }
-
         public bool CollisionCollide(Rectangle item)
         {
             return _collisionRectangle.Intersects(item);
+        }
+
+        public bool Grounded
+        {
+            get { return _grounded; }
+            set { _grounded = value; }
         }
 
         public void Update(GameTime gameTime, List<Rectangle> barriers)
@@ -124,11 +116,10 @@ namespace FinalProject
 
             _keyboardState = Keyboard.GetState();
             KeyboardState newState = Keyboard.GetState();
-            _grounded = false;
+            //_grounded = false;
             _texture = _stickmanTextures[frameCounter];
             _location.X = _collisionRectangle.X - 15;
             _location.Y = _collisionRectangle.Y - 10;
-
             // Horizontal movement
             _collisionRectangle.X += (int)_velocity.X;
 
@@ -169,15 +160,20 @@ namespace FinalProject
                         _grounded = true;
                     }
 
-   
+
 
                 }
+
+                // Gravity
 
                 if (!this.CollisionCollide(barrier) && _velocity.Y == 0)
                 {
                     float i = 1;
                     _velocity.Y -= 0.15f * i;
                 }
+
+
+
 
             }
 
@@ -197,7 +193,7 @@ namespace FinalProject
             }
 
             if (_isRunning)
-            {          
+            {
                 _animationTime = (float)gameTime.TotalGameTime.TotalSeconds - _animationTimeStamp;
                 if (_animationTime > _animationInterval)
                 {
@@ -210,12 +206,12 @@ namespace FinalProject
                 }
 
             }
-          
+
             _oldstate = newState;
 
             if (_keyboardState.IsKeyDown(Keys.D))
             {
-                _velocity.X = _speedX * (int)_acceleration;  
+                _velocity.X = _speedX * (int)_acceleration;
             }
             else if (_keyboardState.IsKeyDown(Keys.A))
             {
@@ -228,16 +224,18 @@ namespace FinalProject
 
             // Jump Code
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) && _hasJumped == false)
-            {
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && _hasJumped == false && _grounded)
+            { 
                 _isRunning = false;
                 frameCounter = 3; // Start of Jump           
                 _collisionRectangle.Y -= 20;
                 _velocity.Y = -5f;
                 _hasJumped = true;
             }
-
+            _grounded = false;
             // Jumping code with Animation
+
 
             if (_hasJumped)
             {
@@ -259,12 +257,12 @@ namespace FinalProject
 
             // Gravity
 
+            
             if (!_grounded && !_hasJumped)
             {
                 float i = 1;
                 _velocity.Y += 0.5f * i;
             }
-
 
             // Flips Spritesheet 
 
@@ -286,7 +284,11 @@ namespace FinalProject
                 _collisionRectangle.Y = (int)SpawnPoint.Y;
             }
 
-           
+            if (!_grounded && _velocity.X == 0 && !_hasJumped)
+            {
+                frameCounter = 0;
+            }
+
         }
         public void Draw(SpriteBatch spriteBatch)
         {

@@ -312,6 +312,7 @@ namespace FinalProject
 
                 foreach (EndLevelDoor endDoors in endingDoors)
                     endDoors.Update(gameTime, stickman);
+
             }
 
             base.Update(gameTime);
@@ -357,7 +358,7 @@ namespace FinalProject
                 foreach (SpinningBlade spinningBlade in spinningBlades)
                    spinningBlade.Draw(_spriteBatch);
 
-                    stickman.Draw(_spriteBatch);
+                stickman.Draw(_spriteBatch);
             }
 
 

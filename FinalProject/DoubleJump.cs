@@ -31,13 +31,20 @@ namespace FinalProject
             _location = new Rectangle((int)_position.X, (int)_position.Y, size+10, size);
         }
 
+        public Rectangle Location
+        {
+            get { return _location; }
+            set { _location = value; }
+        }
+
         public void Update(GameTime gameTime, Player stickman)
         {
             // Collision
 
             if (_location.Intersects(stickman.CollisonRectangle))
-            {
+            {              
                 stickman.isJumping = false;
+                stickman.Grounded = true;
             }
 
             // Animation 
