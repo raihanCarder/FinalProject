@@ -59,7 +59,7 @@ namespace FinalProject
             _graphics.PreferredBackBufferWidth = 1100;
             _graphics.PreferredBackBufferHeight = 500;
             _graphics.ApplyChanges();
-            this.Window.Title = "Platformer Game";
+            this.Window.Title = "Stickman";
           
         }
 
@@ -69,10 +69,10 @@ namespace FinalProject
 
             // Button Rectangles
 
-            playRect = new Rectangle(100,100,200,70);
-            controlsRect = new Rectangle(100, 400, 200, 70);
-            creditsRect = new Rectangle(100, 300, 200, 70);
-            levelSelectRect = new Rectangle(100, 200, 200,70);
+            playRect = new Rectangle(100,90,200,70);
+            controlsRect = new Rectangle(100, 390, 200, 70);
+            creditsRect = new Rectangle(100, 290, 200, 70);
+            levelSelectRect = new Rectangle(100, 190, 200,70);
 
             // Texture 2D lists
 
@@ -176,8 +176,9 @@ namespace FinalProject
 
             if (screen == Screen.Intro)
             {
+
                 // Level Select Button
-                
+
                 if (mouseState.LeftButton == ButtonState.Pressed && levelSelectRect.Contains(mouseLocation)) 
                 {
                     screen = Screen.LevelSelect;
@@ -232,9 +233,9 @@ namespace FinalProject
 
                 if (mouseState.LeftButton == ButtonState.Pressed && playRect.Contains(mouseLocation)) 
                 {
-                    screen = Screen.LevelOne;
+                    //LevelOne();
+                    LevelThree();
                     playTexture = playTexture2;
-                    LevelOne();
                 }
                 else if (playRect.Contains(mouseLocation))
                 {
@@ -250,8 +251,7 @@ namespace FinalProject
             else if (screen == Screen.LevelOne)
             {
                 if (endingDoors[0].AdvanceLevel)
-                {
-                    screen = Screen.LevelTwo;
+                {           
                     ClearLevel();
                     LevelTwo();
                 }
@@ -260,11 +260,36 @@ namespace FinalProject
             {
                 if (endingDoors[0].AdvanceLevel)
                 {
-                    screen = Screen.LevelThree;
                     ClearLevel();
-
+                    LevelThree();
                 }
             }
+            else if (screen == Screen.LevelThree)
+            {
+                if (endingDoors[0].AdvanceLevel)
+                {
+                    screen = Screen.Intro;
+                    ClearLevel();
+                    playingGame = false;
+
+                }
+
+
+            }
+            
+            // Lets you Return to Lobby
+
+            if (keyboardState.IsKeyDown(Keys.R) && screen != Screen.Intro)
+            {
+                if (playingGame)
+                {
+                    ClearLevel();
+                    playingGame = false;
+                }
+                screen = Screen.Intro;
+            }
+
+            // All Code Needed to Update level and Play Game
 
             if (playingGame)
             {
@@ -294,23 +319,36 @@ namespace FinalProject
 
             if (screen == Screen.Intro)
             {
+                _spriteBatch.Draw(wallTexture, new Rectangle(0,0,1100,20), Color.Black);
+                _spriteBatch.Draw(wallTexture, new Rectangle(0, 0, 20, 500), Color.Black);
+                _spriteBatch.Draw(wallTexture, new Rectangle(1080, 0, 20, 500), Color.Black);
+                _spriteBatch.Draw(wallTexture, new Rectangle(0, 480, 1100, 20), Color.Black);
                 _spriteBatch.DrawString(titleFont, "Stickman", new Vector2(400, 10), Color.Black);
                 _spriteBatch.Draw(levelSelectTexture, levelSelectRect, Color.White);
                 _spriteBatch.Draw(playTexture, playRect, Color.White);
                 _spriteBatch.Draw(controlsTexture, controlsRect, Color.White);
                 _spriteBatch.Draw(creditsTexture, creditsRect, Color.White);
             }
-            else if (screen == Screen.LevelOne)
+            else if (screen == Screen.LevelSelect)
             {
-               
+                _spriteBatch.Draw(wallTexture, new Rectangle(0, 0, 1100, 20), Color.Black);
+                _spriteBatch.Draw(wallTexture, new Rectangle(0, 0, 20, 500), Color.Black);
+                _spriteBatch.Draw(wallTexture, new Rectangle(1080, 0, 20, 500), Color.Black);
+                _spriteBatch.Draw(wallTexture, new Rectangle(0, 480, 1100, 20), Color.Black);
             }
-            else if (screen == Screen.LevelTwo)
+            else if (screen == Screen.Controls)
             {
-
+                _spriteBatch.Draw(wallTexture, new Rectangle(0, 0, 1100, 20), Color.Black);
+                _spriteBatch.Draw(wallTexture, new Rectangle(0, 0, 20, 500), Color.Black);
+                _spriteBatch.Draw(wallTexture, new Rectangle(1080, 0, 20, 500), Color.Black);
+                _spriteBatch.Draw(wallTexture, new Rectangle(0, 480, 1100, 20), Color.Black);
             }
-            else if (screen == Screen.LevelThree)
+            else if (screen == Screen.Credits)
             {
-
+                _spriteBatch.Draw(wallTexture, new Rectangle(0, 0, 1100, 20), Color.Black);
+                _spriteBatch.Draw(wallTexture, new Rectangle(0, 0, 20, 500), Color.Black);
+                _spriteBatch.Draw(wallTexture, new Rectangle(1080, 0, 20, 500), Color.Black);
+                _spriteBatch.Draw(wallTexture, new Rectangle(0, 480, 1100, 20), Color.Black);
             }
 
             if (playingGame)
@@ -327,8 +365,7 @@ namespace FinalProject
                 stickman.Draw(_spriteBatch);
             }
 
-
-            _spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(30, 10), Color.Black);         
+            _spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(30, 30), Color.Black);         
 
             _spriteBatch.End();
 
@@ -348,6 +385,7 @@ namespace FinalProject
 
         public void LevelOne()
         {
+            screen = Screen.LevelOne;
             playingGame = true;
             stickman = new Player(stickmanTextures, 24, 400);
             stickman.SpawnPoint = new Vector2(24, 400);
@@ -364,6 +402,7 @@ namespace FinalProject
 
         public void LevelTwo()
         {
+            screen = Screen.LevelTwo;
             playingGame = true;
             stickman = new Player(stickmanTextures, 24, 152);
             stickman.SpawnPoint = new Vector2(24, 152);
@@ -395,6 +434,38 @@ namespace FinalProject
             doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(400, 230), 30));
             doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(187, 300), 30));
             endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(1020, 420), 70));
+        }
+
+        public void LevelThree()
+        {
+            screen = Screen.LevelThree;
+            playingGame = true;
+            stickman = new Player(stickmanTextures, 24, 430);
+            stickman.SpawnPoint = new Vector2(24, 430);
+            barriers.Add(new Rectangle(0, 480, 1100, 20));
+            barriers.Add(new Rectangle(0, 0, 1100, 20));
+            barriers.Add(new Rectangle(0, 0, 20, 500));
+            barriers.Add(new Rectangle(1080, 0, 20, 500));
+            doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(95, 400), 30));
+            endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(1020, 420), 70));
+
+            for (int i = 300; i < 470; i+=10)
+            {
+                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(130, i), 1060, 0, 20, true));
+            }
+
+            for (int i = 355; i < 400; i += 10)
+            {
+                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(80, i), 1060, 0, 20, true));
+            }
+            for (int i = 20; i < 90; i += 10)
+            {
+                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(i, 355), 1060, 0, 20, true));
+            }
+            for (int i = 205; i < 305; i += 40)
+            {
+                doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(20, i), 30));
+            }
         }
 
     }
