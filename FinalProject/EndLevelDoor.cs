@@ -15,17 +15,16 @@ namespace FinalProject
         private Rectangle _collisionRectangle;
         private Texture2D _texture;
         private int _frameCounter;
-        private Vector2 _position;
         private float _animationTimeStamp;
         private float _animationInterval = 0.3f;
         private float _animationTime;
         private bool _advance;
         private float _endingTime;
+
         public EndLevelDoor(List<Texture2D> textures, Vector2 position, int size)
         {
           _doorTextures = textures;
           _texture = textures[0];
-          _position = position;
           _location = new Rectangle((int)position.X, (int)position.Y, size, size+10);
           _collisionRectangle = new Rectangle((int)position.X, (int)position.Y, size/2, size);
           _frameCounter = 0;

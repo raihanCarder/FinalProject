@@ -22,7 +22,7 @@ namespace FinalProject // YUH
         private Vector2 _velocity;
         private Vector2 _spawnPoint;
         private int _endingDistance;
-        private float _startingDistanceX;// Maybe Make Vector 2 Like Other Class
+        private float _startingDistanceX;
         private float _startingDistanceY;
         private bool _horizontalDirection;
         private int _frameCounter = 0;
@@ -110,11 +110,6 @@ namespace FinalProject // YUH
                 stickman.YLocation = (int)stickman.SpawnPoint.Y;
             }
             
-        }
-
-        public bool Collide(Rectangle item)
-        {
-            return _location.Intersects(item);
         }
 
         public void Draw(SpriteBatch spriteBatch)
