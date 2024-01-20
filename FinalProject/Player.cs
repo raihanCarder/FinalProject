@@ -29,7 +29,7 @@ namespace FinalProject
         private int _speedX = 4;
         private float _acceleration = 1.05f;
         private SpriteEffects _direction;
-        private bool _grounded, _intersectingCloud;
+        private bool _grounded;
         private int frameCounter = 0;
         private float _animationTimeStamp;
         private float _animationInterval = 0.06f;

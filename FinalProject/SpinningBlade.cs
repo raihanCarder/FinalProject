@@ -40,7 +40,7 @@ namespace FinalProject // YUH
             _velocity = new Vector2();
             _texture = bladeTextures[_frameCounter];
             _horizontalDirection = horizontalDirection;
-            _velocity.X = speed; // if wanted to reverse directions for start make this negative speed;
+            _velocity.X = speed;
             _velocity.Y = speed;
             
         }
@@ -78,22 +78,22 @@ namespace FinalProject // YUH
 
             if (_horizontalDirection) 
             {
-                if (_location.X >= _endingDistance)
+                if (_location.X > _endingDistance)
                 {
                     _velocity.X *= -1;
                 }
-                else if (_location.X <= _startingDistanceX)
+                else if (_location.X < _startingDistanceX)
                 {
                     _velocity.X *= -1;
                 }
             }
             else if (!_horizontalDirection)
             {
-                if (_location.Y >= _endingDistance)
+                if (_location.Y > _endingDistance)
                 {
                     _velocity.Y *= -1;
                 }
-                else if (_location.Y <= _startingDistanceY)
+                else if (_location.Y < _startingDistanceY)
                 {
                     _velocity.Y *= -1;
                 }
