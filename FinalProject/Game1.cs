@@ -231,10 +231,10 @@ namespace FinalProject
 
                 // Play Button
 
-                if (mouseState.LeftButton == ButtonState.Pressed && playRect.Contains(mouseLocation)) 
+                if (mouseState.LeftButton == ButtonState.Pressed && playRect.Contains(mouseLocation))
                 {
-                    //LevelOne();
-                    LevelThree();
+                    LevelOne();
+                    //LevelThree();
                     playTexture = playTexture2;
                 }
                 else if (playRect.Contains(mouseLocation))
@@ -394,10 +394,19 @@ namespace FinalProject
             barriers.Add(new Rectangle(1080, 0, 20, 500));
             barriers.Add(new Rectangle(0, 450, 317, 20));
             barriers.Add(new Rectangle(480, 450, 550, 20));
+            barriers.Add(new Rectangle(20, 300, 1080, 20));
+            barriers.Add(new Rectangle(20, 118, 100, 20));
+            barriers.Add(new Rectangle(400, 118, 20, 20));
+            barriers.Add(new Rectangle(540, 118, 220, 20));
+            barriers.Add(new Rectangle(1000, 118, 100, 20));
+            doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(1030, 373), 30));
+            doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(20, 200), 30));
             spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(100, 410), 300, 0, 50, true));
+            spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(20, 230), 1010, 8, 70, true));
             spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(100, 355), 300, 3, 50, true));
-            spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(480, 410), 900, 5, 50, true));
-            endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(980, 380), 70));
+            spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(480, 400), 978, 5, 50, true));
+            spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(630, 0), 90, 2, 40, false));
+            endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(1010, 50), 70));
         }
 
         public void LevelTwo()
