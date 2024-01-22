@@ -308,6 +308,7 @@ namespace FinalProject
             {
                 if (playingGame)
                 {
+                    IsMouseVisible = true;
                     totalDeaths = 0;
                     ClearLevel();
                     playingGame = false;
@@ -425,6 +426,7 @@ namespace FinalProject
 
         public void LevelOne()
         {
+            IsMouseVisible = false;
             level = 1;
             screen = Screen.LevelOne;
             playingGame = true;
@@ -452,6 +454,7 @@ namespace FinalProject
 
         public void LevelTwo()
         {
+            IsMouseVisible = false;
             level = 2;
             screen = Screen.LevelTwo;
             playingGame = true;
@@ -489,6 +492,7 @@ namespace FinalProject
 
         public void LevelThree()
         {
+            IsMouseVisible = false;
             level = 3;
             screen = Screen.LevelThree;
             playingGame = true;
