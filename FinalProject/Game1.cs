@@ -235,8 +235,7 @@ namespace FinalProject
 
                 if (mouseState.LeftButton == ButtonState.Pressed && playRect.Contains(mouseLocation))
                 {
-                    //LevelOne();
-                    LevelThree();
+                    LevelOne();
                     playTexture = playTexture2;
                 }
                 else if (playRect.Contains(mouseLocation))
@@ -263,6 +262,7 @@ namespace FinalProject
             {
                 if (endingDoors[0].AdvanceLevel)
                 {
+                    totalDeaths += stickman.DeathCount;
                     ClearLevel();
                     LevelThree();
                 }
@@ -364,7 +364,7 @@ namespace FinalProject
                 }
                 else if (level == 3)
                 {
-
+                    _spriteBatch.DrawString(deathCounterText, $"Total Deaths: {stickman.DeathCount + totalDeaths}", new Vector2(430, 450), Color.Black);
                 }
 
                 stickman.Draw(_spriteBatch);
@@ -472,10 +472,11 @@ namespace FinalProject
             barriers.Add(new Rectangle(0, 0, 20, 500));
             barriers.Add(new Rectangle(1080, 0, 20, 500));
             barriers.Add(new Rectangle(20, 205, 45, 10));
-            barriers.Add(new Rectangle(20, 124, 45, 10));
+            barriers.Add(new Rectangle(20, 125, 45, 10));
             barriers.Add(new Rectangle(500, 164, 100, 10));
+            barriers.Add(new Rectangle(500, 410, 100, 10));
             doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(95, 400), 30));
-            endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(1020, 420), 70));
+            endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(520, 340), 70));
             doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(20, 275), 30));
             doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(85, 200), 30));
             doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(265, 390), 30));
@@ -510,7 +511,7 @@ namespace FinalProject
             {
                 spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(i, 260), 1060, 0, 20, true)); 
             }
-            for (int i = 20; i < 900; i += 10)
+            for (int i = 20; i < 1070; i += 10)
             {
                 spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(i, 20), 1060, 0, 20, true));
             }
@@ -537,6 +538,14 @@ namespace FinalProject
             for (int i = 410; i < 470; i += 10)
             {
                 spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(400, i), 1060, 0, 20, true));
+            }
+            for (int i = 100; i < 170; i += 10)
+            {
+                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(585, i), 1060, 0, 20, true));
+            }
+            for (int i = 595; i < 1070; i += 10)
+            {
+                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(i, 405), 1060, 0, 20, true));
             }
         }
 
