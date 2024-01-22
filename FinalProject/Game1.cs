@@ -293,6 +293,7 @@ namespace FinalProject
             {
                 if (endingDoors[0].AdvanceLevel)
                 {
+                    IsMouseVisible = true;
                     screen = Screen.Intro;
                     ClearLevel();
                     playingGame = false;
