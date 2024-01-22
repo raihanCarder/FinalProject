@@ -23,8 +23,11 @@ namespace FinalProject
         List<EndLevelDoor> endingDoors;
         List<Texture2D> doubleJumpTextures;
         List<Texture2D> doorTextures;
+        List<Texture2D> stickmanDancingTextures;
+        List<Texture2D> levelSelectLevelTextures;
+        int stickmanDancingFrame = 0;      
         Texture2D stickmanSpritesheet;
-        private GraphicsDeviceManager _graphics;
+        private GraphicsDeviceManager _graphics; 
         private SpriteBatch _spriteBatch;
         Player stickman;
         Texture2D wallTexture;
@@ -39,6 +42,10 @@ namespace FinalProject
         Texture2D playTexture1, playTexture2, controlsTexture1, controlsTexture2, creditsTexture1, creditsTexture2, levelSelectTexture1,levelSelectTexture2, levelSelectTexture, playTexture, creditsTexture, controlsTexture;
         Vector2 mouseLocation;
         int level, totalDeaths;
+        private float _animationTimeStamp;
+        private float _animationInterval = 0.08f;
+        private float _animationTime;
+        bool levelSelect = false;
 
 
         enum Screen
@@ -81,6 +88,8 @@ namespace FinalProject
             spinningBladeTextures = new List<Texture2D>();
             doubleJumpTextures = new List<Texture2D>();
             doorTextures = new List<Texture2D>();
+            stickmanDancingTextures = new List<Texture2D>();
+            levelSelectLevelTextures = new List<Texture2D> ();
 
             // Screen
 
@@ -158,6 +167,17 @@ namespace FinalProject
                 doorTextures.Add(Content.Load<Texture2D>($"CroppedDoor-imageonline.co-63895-{i}"));
             }
 
+            // Dancing Stickman Textures
+
+            for (int i = 0; i < 76; i++)
+            {
+                stickmanDancingTextures.Add(Content.Load<Texture2D>($"{i}"));
+            }
+
+            // Level Select Imags
+
+            levelSelectLevelTextures.Add(Content.Load<Texture2D>("LevelOneFinishedImage"));
+            levelSelectLevelTextures.Add(Content.Load<Texture2D>("LevelTwoFinishedImage"));
 
             // TODO: use this.Content to load your game content here
         }
@@ -178,12 +198,14 @@ namespace FinalProject
 
             if (screen == Screen.Intro)
             {
+                DancingStickman(gameTime);
 
                 // Level Select Button
 
                 if (mouseState.LeftButton == ButtonState.Pressed && levelSelectRect.Contains(mouseLocation)) 
                 {
                     screen = Screen.LevelSelect;
+                    levelSelect = true;
                     levelSelectTexture = levelSelectTexture2;
 
                 }
@@ -200,7 +222,7 @@ namespace FinalProject
 
                 if (mouseState.LeftButton == ButtonState.Pressed && controlsRect.Contains(mouseLocation)) 
                 {
-                    screen = Screen.LevelSelect;
+                    screen = Screen.Controls;
                     controlsTexture = controlsTexture2;
 
                 }
@@ -289,6 +311,7 @@ namespace FinalProject
                     totalDeaths = 0;
                     ClearLevel();
                     playingGame = false;
+                    levelSelect = false;
                 }
                 screen = Screen.Intro;
             }
@@ -324,15 +347,19 @@ namespace FinalProject
             if (screen == Screen.Intro)
             {
                 BorderTextures();
-                _spriteBatch.DrawString(titleFont, "Stickman", new Vector2(400, 10), Color.Black);
+                _spriteBatch.DrawString(titleFont, "Stickman", new Vector2(440, 10), Color.Black);
                 _spriteBatch.Draw(levelSelectTexture, levelSelectRect, Color.White);
                 _spriteBatch.Draw(playTexture, playRect, Color.White);
                 _spriteBatch.Draw(controlsTexture, controlsRect, Color.White);
                 _spriteBatch.Draw(creditsTexture, creditsRect, Color.White);
+                _spriteBatch.Draw(stickmanDancingTextures[stickmanDancingFrame], new Rectangle(650, 85, 400, 385), Color.White);
+                
             }
             else if (screen == Screen.LevelSelect)
             {
                 BorderTextures();
+                _spriteBatch.Draw(levelSelectLevelTextures[0], new Rectangle(40,100,300,200), Color.White);
+                _spriteBatch.Draw(levelSelectLevelTextures[1], new Rectangle(380, 100, 300, 200), Color.White);
             }
             else if (screen == Screen.Controls)
             {
@@ -370,7 +397,7 @@ namespace FinalProject
                 stickman.Draw(_spriteBatch);
             }
 
-            _spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(100, 30), Color.Black);         
+            _spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(100, 30), Color.Black);
 
             _spriteBatch.End();
 
@@ -417,7 +444,7 @@ namespace FinalProject
             doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(20, 200), 30));
             spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(100, 410), 300, 0, 50, true));
             spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(20, 230), 1010, 8, 70, true));
-            spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(100, 355), 300, 3, 50, true));
+            spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(50, 355), 300, 3, 50, true));
             spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(480, 400), 978, 5, 50, true));
             spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(630, 0), 90, 2, 40, false));
             endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(1010, 50), 70));
@@ -546,6 +573,20 @@ namespace FinalProject
             for (int i = 595; i < 1070; i += 10)
             {
                 spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(i, 405), 1060, 0, 20, true));
+            }
+        }
+
+        public void DancingStickman(GameTime gameTime)
+        {
+            _animationTime = (float)gameTime.TotalGameTime.TotalSeconds - _animationTimeStamp;
+            if (_animationTime > _animationInterval)
+            {
+                _animationTimeStamp = (float)gameTime.TotalGameTime.TotalSeconds;
+                 stickmanDancingFrame += 1;
+                if (stickmanDancingFrame >= 76)
+                {
+                    stickmanDancingFrame = 0;
+                }
             }
         }
 
