@@ -188,6 +188,13 @@
 /processorParam:TextureFormat=Color
 /build:CroppedDoor-imageonline.co-63895-4.gif
 
+#begin DeathCounter.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:DeathCounter.spritefont
+
 #begin frame_0_delay-0.2s.gif
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -35,6 +35,7 @@ namespace FinalProject
         private float _animationInterval = 0.06f;
         private float _animationTime;
         private Vector2 _spawnPoint;
+        private int _deaths;
 
         
 
@@ -52,6 +53,7 @@ namespace FinalProject
             _velocity = new Vector2();
             _direction = SpriteEffects.None;
             _texture = _stickmanTextures[frameCounter]; // In update always change Texture to texture wanted.
+            _deaths = 0;
         }
 
         public Player(Texture2D texture, int x, int y) // Used for Testing Purposes
@@ -82,6 +84,11 @@ namespace FinalProject
         {
             get { return _spawnPoint; }
             set { _spawnPoint = value; }
+        }
+        public int DeathCount
+        {
+            get { return _deaths; }
+            set { _deaths = value; }
         }
         public float Yvelocity
         {
@@ -282,7 +289,10 @@ namespace FinalProject
             {             
                 _collisionRectangle.X = (int)SpawnPoint.X;
                 _collisionRectangle.Y = (int)SpawnPoint.Y;
+                _deaths++;
             }
+
+            // Makes frame 0 if Standing Still
 
             if (!_grounded && _velocity.X == 0 && !_hasJumped)
             {

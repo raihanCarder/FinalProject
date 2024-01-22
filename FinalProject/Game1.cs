@@ -33,11 +33,12 @@ namespace FinalProject
         KeyboardState keyboardState;
         int xPosition, yPosition;
         SpriteFont cordinates;
-        SpriteFont titleFont;
+        SpriteFont titleFont, deathCounterText;
         bool playingGame = false;
         Rectangle playRect, controlsRect, creditsRect, levelSelectRect;
         Texture2D playTexture1, playTexture2, controlsTexture1, controlsTexture2, creditsTexture1, creditsTexture2, levelSelectTexture1,levelSelectTexture2, levelSelectTexture, playTexture, creditsTexture, controlsTexture;
         Vector2 mouseLocation;
+        int level, totalDeaths;
 
 
         enum Screen
@@ -107,6 +108,7 @@ namespace FinalProject
             creditsTexture1 = Content.Load<Texture2D>("button_credits");
             creditsTexture2 = Content.Load<Texture2D>("button_credits (1)");
             titleFont = Content.Load<SpriteFont>("Title");
+            deathCounterText = Content.Load<SpriteFont>("DeathCounter");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             wallTexture = Content.Load<Texture2D>("rectangle");
             stickmanSpritesheet = Content.Load<Texture2D>("BlackStickmanRight");
@@ -233,8 +235,8 @@ namespace FinalProject
 
                 if (mouseState.LeftButton == ButtonState.Pressed && playRect.Contains(mouseLocation))
                 {
-                    LevelOne();
-                    //LevelThree();
+                    //LevelOne();
+                    LevelThree();
                     playTexture = playTexture2;
                 }
                 else if (playRect.Contains(mouseLocation))
@@ -251,7 +253,8 @@ namespace FinalProject
             else if (screen == Screen.LevelOne)
             {
                 if (endingDoors[0].AdvanceLevel)
-                {           
+                {
+                    totalDeaths = stickman.DeathCount;
                     ClearLevel();
                     LevelTwo();
                 }
@@ -283,6 +286,7 @@ namespace FinalProject
             {
                 if (playingGame)
                 {
+                    totalDeaths = 0;
                     ClearLevel();
                     playingGame = false;
                 }
@@ -319,10 +323,7 @@ namespace FinalProject
 
             if (screen == Screen.Intro)
             {
-                _spriteBatch.Draw(wallTexture, new Rectangle(0,0,1100,20), Color.Black);
-                _spriteBatch.Draw(wallTexture, new Rectangle(0, 0, 20, 500), Color.Black);
-                _spriteBatch.Draw(wallTexture, new Rectangle(1080, 0, 20, 500), Color.Black);
-                _spriteBatch.Draw(wallTexture, new Rectangle(0, 480, 1100, 20), Color.Black);
+                BorderTextures();
                 _spriteBatch.DrawString(titleFont, "Stickman", new Vector2(400, 10), Color.Black);
                 _spriteBatch.Draw(levelSelectTexture, levelSelectRect, Color.White);
                 _spriteBatch.Draw(playTexture, playRect, Color.White);
@@ -331,24 +332,15 @@ namespace FinalProject
             }
             else if (screen == Screen.LevelSelect)
             {
-                _spriteBatch.Draw(wallTexture, new Rectangle(0, 0, 1100, 20), Color.Black);
-                _spriteBatch.Draw(wallTexture, new Rectangle(0, 0, 20, 500), Color.Black);
-                _spriteBatch.Draw(wallTexture, new Rectangle(1080, 0, 20, 500), Color.Black);
-                _spriteBatch.Draw(wallTexture, new Rectangle(0, 480, 1100, 20), Color.Black);
+                BorderTextures();
             }
             else if (screen == Screen.Controls)
             {
-                _spriteBatch.Draw(wallTexture, new Rectangle(0, 0, 1100, 20), Color.Black);
-                _spriteBatch.Draw(wallTexture, new Rectangle(0, 0, 20, 500), Color.Black);
-                _spriteBatch.Draw(wallTexture, new Rectangle(1080, 0, 20, 500), Color.Black);
-                _spriteBatch.Draw(wallTexture, new Rectangle(0, 480, 1100, 20), Color.Black);
+                BorderTextures();
             }
             else if (screen == Screen.Credits)
             {
-                _spriteBatch.Draw(wallTexture, new Rectangle(0, 0, 1100, 20), Color.Black);
-                _spriteBatch.Draw(wallTexture, new Rectangle(0, 0, 20, 500), Color.Black);
-                _spriteBatch.Draw(wallTexture, new Rectangle(1080, 0, 20, 500), Color.Black);
-                _spriteBatch.Draw(wallTexture, new Rectangle(0, 480, 1100, 20), Color.Black);
+                BorderTextures();
             }
 
             if (playingGame)
@@ -362,10 +354,23 @@ namespace FinalProject
                 foreach (SpinningBlade spinningBlade in spinningBlades)
                    spinningBlade.Draw(_spriteBatch);
 
+                if (level == 1)
+                {
+                    _spriteBatch.DrawString(deathCounterText, $"Total Deaths: {stickman.DeathCount} ", new Vector2(30, 10), Color.Black);
+                }
+                else if (level == 2)
+                {
+                    _spriteBatch.DrawString(deathCounterText, $"Total Deaths: {stickman.DeathCount + totalDeaths}", new Vector2(50, 470), Color.Black);
+                }
+                else if (level == 3)
+                {
+
+                }
+
                 stickman.Draw(_spriteBatch);
             }
 
-            _spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(30, 30), Color.Black);         
+            _spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(100, 30), Color.Black);         
 
             _spriteBatch.End();
 
@@ -383,8 +388,17 @@ namespace FinalProject
             doubleJumps.Clear();
         }
 
+        public void BorderTextures() // This is only used to make interface look better in the screens that aren't levels.
+        {
+            _spriteBatch.Draw(wallTexture, new Rectangle(0, 0, 1100, 20), Color.Black);
+            _spriteBatch.Draw(wallTexture, new Rectangle(0, 0, 20, 500), Color.Black);
+            _spriteBatch.Draw(wallTexture, new Rectangle(1080, 0, 20, 500), Color.Black);
+            _spriteBatch.Draw(wallTexture, new Rectangle(0, 480, 1100, 20), Color.Black);
+        }
+
         public void LevelOne()
         {
+            level = 1;
             screen = Screen.LevelOne;
             playingGame = true;
             stickman = new Player(stickmanTextures, 24, 400);
@@ -411,6 +425,7 @@ namespace FinalProject
 
         public void LevelTwo()
         {
+            level = 2;
             screen = Screen.LevelTwo;
             playingGame = true;
             stickman = new Player(stickmanTextures, 24, 152);
@@ -447,18 +462,38 @@ namespace FinalProject
 
         public void LevelThree()
         {
+            level = 3;
             screen = Screen.LevelThree;
             playingGame = true;
             stickman = new Player(stickmanTextures, 24, 430);
-            stickman.SpawnPoint = new Vector2(24, 430);
+            stickman.SpawnPoint = new Vector2(24, 430); // Og is 24
             barriers.Add(new Rectangle(0, 480, 1100, 20));
             barriers.Add(new Rectangle(0, 0, 1100, 20));
             barriers.Add(new Rectangle(0, 0, 20, 500));
             barriers.Add(new Rectangle(1080, 0, 20, 500));
+            barriers.Add(new Rectangle(20, 205, 45, 10));
+            barriers.Add(new Rectangle(20, 124, 45, 10));
+            barriers.Add(new Rectangle(500, 164, 100, 10));
             doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(95, 400), 30));
             endingDoors.Add(new EndLevelDoor(doorTextures, new Vector2(1020, 420), 70));
+            doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(20, 275), 30));
+            doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(85, 200), 30));
+            doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(265, 390), 30));
+            doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(320, 390), 30));
+            doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(450, 300), 30));
+            doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(320, 220), 30));       
+            // Moving Ones
+            spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(60, 174), 460, 3, 20, false));
+            spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(200, 20), 460, 4, 20, false));
+            spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(220, 20), 460, 4, 20, false));
+            spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(180, 20), 460, 4, 20, false));
+            spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(300, 20), 460, 8, 20, false));
+            spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(330, 20), 385, 10, 30, false));
+            spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(460, 20), 385, 10, 30, false));
 
-            for (int i = 300; i < 470; i+=10)
+
+
+            for (int i = 140; i < 470; i+=10)
             {
                 spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(130, i), 1060, 0, 20, true));
             }
@@ -471,9 +506,37 @@ namespace FinalProject
             {
                 spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(i, 355), 1060, 0, 20, true));
             }
-            for (int i = 205; i < 305; i += 40)
+            for (int i = 60; i < 260; i += 10)
             {
-                doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(20, i), 30));
+                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(i, 260), 1060, 0, 20, true)); 
+            }
+            for (int i = 20; i < 900; i += 10)
+            {
+                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(i, 20), 1060, 0, 20, true));
+            }
+            for (int i = 130; i < 270; i += 10)
+            {
+                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(60, i), 1060, 0, 20, true));
+            }
+            for (int i = 20; i < 420; i += 10)
+            {
+                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(300, i), 1060, 0, 20, true));
+            }
+            for (int i = 180; i < 350; i += 10)
+            {
+                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(i, 410), 1060, 0, 20, true));
+            }
+            for (int i = 160; i < 410; i += 10)
+            {
+                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(490, i), 1060, 0, 20, true));
+            }
+            for (int i = 400; i < 500; i += 10)
+            {
+                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(i, 410), 1060, 0, 20, true));
+            }
+            for (int i = 410; i < 470; i += 10)
+            {
+                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(400, i), 1060, 0, 20, true));
             }
         }
 
