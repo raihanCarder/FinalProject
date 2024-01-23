@@ -38,7 +38,7 @@ namespace FinalProject
         SpriteFont cordinates;
         SpriteFont titleFont, deathCounterText;
         bool playingGame = false;
-        Rectangle playRect, controlsRect, creditsRect, levelSelectRect;
+        Rectangle playRect, controlsRect, creditsRect, levelSelectRect, levelOneRect, levelTwoRect, levelThreeRect;
         Texture2D playTexture1, playTexture2, controlsTexture1, controlsTexture2, creditsTexture1, creditsTexture2, levelSelectTexture1,levelSelectTexture2, levelSelectTexture, playTexture, creditsTexture, controlsTexture;
         Vector2 mouseLocation;
         int level, totalDeaths;
@@ -81,6 +81,8 @@ namespace FinalProject
             controlsRect = new Rectangle(100, 390, 200, 70);
             creditsRect = new Rectangle(100, 290, 200, 70);
             levelSelectRect = new Rectangle(100, 190, 200,70);
+            levelOneRect = new Rectangle(40, 100, 300, 200);
+            levelTwoRect = new Rectangle(380, 100, 300, 200);
 
             // Texture 2D lists
 
@@ -257,7 +259,8 @@ namespace FinalProject
 
                 if (mouseState.LeftButton == ButtonState.Pressed && playRect.Contains(mouseLocation))
                 {
-                    LevelOne();
+                    //LevelOne();
+                    LevelThree();
                     playTexture = playTexture2;
                 }
                 else if (playRect.Contains(mouseLocation))
@@ -314,6 +317,10 @@ namespace FinalProject
                     ClearLevel();
                     playingGame = false;
                     levelSelect = false;
+                }  
+                else if (screen == Screen.LevelSelect)
+                {
+                    levelSelect = false;
                 }
                 screen = Screen.Intro;
             }
@@ -360,8 +367,8 @@ namespace FinalProject
             else if (screen == Screen.LevelSelect)
             {
                 BorderTextures();
-                _spriteBatch.Draw(levelSelectLevelTextures[0], new Rectangle(40,100,300,200), Color.White);
-                _spriteBatch.Draw(levelSelectLevelTextures[1], new Rectangle(380, 100, 300, 200), Color.White);
+                _spriteBatch.Draw(levelSelectLevelTextures[0], levelOneRect, Color.White);
+                _spriteBatch.Draw(levelSelectLevelTextures[1], levelTwoRect, Color.White);
             }
             else if (screen == Screen.Controls)
             {
@@ -399,7 +406,7 @@ namespace FinalProject
                 stickman.Draw(_spriteBatch);
             }
 
-            _spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(100, 30), Color.Black);
+            //_spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(100, 30), Color.Black);
 
             _spriteBatch.End();
 
@@ -498,7 +505,7 @@ namespace FinalProject
             screen = Screen.LevelThree;
             playingGame = true;
             stickman = new Player(stickmanTextures, 24, 430);
-            stickman.SpawnPoint = new Vector2(24, 430); // Og is 24
+            stickman.SpawnPoint = new Vector2(24, 430); // Og is 24, 430
             barriers.Add(new Rectangle(0, 480, 1100, 20));
             barriers.Add(new Rectangle(0, 0, 1100, 20));
             barriers.Add(new Rectangle(0, 0, 20, 500));
@@ -514,7 +521,11 @@ namespace FinalProject
             doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(265, 390), 30));
             doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(320, 390), 30));
             doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(450, 300), 30));
-            doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(320, 220), 30));       
+            doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(320, 220), 30));
+            doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(630, 200), 30));
+            doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(900, 200), 30));
+            doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(1030, 390), 30));
+            doubleJumps.Add(new DoubleJump(doubleJumpTextures, new Vector2(880, 390), 30));
             // Moving Ones
             spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(60, 174), 460, 3, 20, false));
             spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(200, 20), 460, 4, 20, false));
@@ -523,6 +534,9 @@ namespace FinalProject
             spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(300, 20), 460, 8, 20, false));
             spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(330, 20), 385, 10, 30, false));
             spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(460, 20), 385, 10, 30, false));
+            spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(585, 20), 400, 4, 20, false));
+            spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(760, 30), 230, 4, 20, false));
+            spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(600, 240), 1060, 5, 20, true));
 
 
 
@@ -571,13 +585,21 @@ namespace FinalProject
             {
                 spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(400, i), 1060, 0, 20, true));
             }
-            for (int i = 100; i < 170; i += 10)
+            for (int i = 100; i < 250; i += 10)
             {
                 spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(585, i), 1060, 0, 20, true));
             }
-            for (int i = 595; i < 1070; i += 10)
+            for (int i = 595; i < 1060; i += 10)
             {
                 spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(i, 405), 1060, 0, 20, true));
+            }
+            for (int i = 585; i < 980; i += 10)
+            {
+                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(i, 240), 1060, 0, 20, true));
+            }
+            for (int i = 20; i < 410; i += 10)
+            {
+                spinningBlades.Add(new SpinningBlade(spinningBladeTextures, new Vector2(1060, i), 1060, 0, 20, true));
             }
         }
 
