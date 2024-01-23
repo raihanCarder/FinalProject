@@ -7,6 +7,7 @@ using System.Data.SqlTypes;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
+using System.Text.Encodings.Web;
 using System.Threading;
 
 namespace FinalProject
@@ -36,7 +37,7 @@ namespace FinalProject
         KeyboardState keyboardState;
         int xPosition, yPosition;
         SpriteFont cordinates;
-        SpriteFont titleFont, deathCounterText;
+        SpriteFont titleFont, deathCounterText, descriptionText;
         bool playingGame = false;
         Rectangle playRect, controlsRect, creditsRect, levelSelectRect, levelOneRect, levelTwoRect, levelThreeRect;
         Texture2D playTexture1, playTexture2, controlsTexture1, controlsTexture2, creditsTexture1, creditsTexture2, levelSelectTexture1,levelSelectTexture2, levelSelectTexture, playTexture, creditsTexture, controlsTexture;
@@ -46,6 +47,7 @@ namespace FinalProject
         private float _animationInterval = 0.08f;
         private float _animationTime;
         bool levelSelect = false;
+        string selectedLevel = "";
 
 
         enum Screen
@@ -81,8 +83,9 @@ namespace FinalProject
             controlsRect = new Rectangle(100, 390, 200, 70);
             creditsRect = new Rectangle(100, 290, 200, 70);
             levelSelectRect = new Rectangle(100, 190, 200,70);
-            levelOneRect = new Rectangle(40, 100, 300, 200);
-            levelTwoRect = new Rectangle(380, 100, 300, 200);
+            levelOneRect = new Rectangle(400, 40, 300, 200);
+            levelTwoRect = new Rectangle(400, 260, 300, 200);
+            levelThreeRect = new Rectangle(760, 150, 300, 200);
 
             // Texture 2D lists
 
@@ -124,7 +127,7 @@ namespace FinalProject
             wallTexture = Content.Load<Texture2D>("rectangle");
             stickmanSpritesheet = Content.Load<Texture2D>("BlackStickmanRight");
             cordinates = Content.Load<SpriteFont>("Cordinates"); // Delete later 
-
+            descriptionText = Content.Load<SpriteFont>("DescriptionText");
 
             int width = stickmanSpritesheet.Width / 8;
             int height = stickmanSpritesheet.Height / 5;
@@ -180,6 +183,7 @@ namespace FinalProject
 
             levelSelectLevelTextures.Add(Content.Load<Texture2D>("LevelOneFinishedImage"));
             levelSelectLevelTextures.Add(Content.Load<Texture2D>("LevelTwoFinishedImage"));
+            levelSelectLevelTextures.Add(Content.Load<Texture2D>("LevelThreeFinishedImage"));
 
             // TODO: use this.Content to load your game content here
         }
@@ -200,6 +204,7 @@ namespace FinalProject
 
             if (screen == Screen.Intro)
             {
+                IsMouseVisible = true;
                 DancingStickman(gameTime);
 
                 // Level Select Button
@@ -207,7 +212,6 @@ namespace FinalProject
                 if (mouseState.LeftButton == ButtonState.Pressed && levelSelectRect.Contains(mouseLocation)) 
                 {
                     screen = Screen.LevelSelect;
-                    levelSelect = true;
                     levelSelectTexture = levelSelectTexture2;
 
                 }
@@ -259,8 +263,7 @@ namespace FinalProject
 
                 if (mouseState.LeftButton == ButtonState.Pressed && playRect.Contains(mouseLocation))
                 {
-                    //LevelOne();
-                    LevelThree();
+                    LevelOne();
                     playTexture = playTexture2;
                 }
                 else if (playRect.Contains(mouseLocation))
@@ -276,34 +279,108 @@ namespace FinalProject
             }
             else if (screen == Screen.LevelOne)
             {
-                if (endingDoors[0].AdvanceLevel)
+                if (levelSelect)
                 {
-                    totalDeaths = stickman.DeathCount;
-                    ClearLevel();
-                    LevelTwo();
+                    if (endingDoors[0].AdvanceLevel)
+                    {
+                        totalDeaths = 0;
+                        screen = Screen.LevelSelect;
+                        ClearLevel();
+                        playingGame = false;
+                    }
+                }
+                else
+                {
+                    if (endingDoors[0].AdvanceLevel)
+                    {
+                        totalDeaths = stickman.DeathCount;
+                        ClearLevel();
+                        LevelTwo();
+                    }
                 }
             }
             else if (screen == Screen.LevelTwo)
             {
-                if (endingDoors[0].AdvanceLevel)
+
+                if (levelSelect)
                 {
-                    totalDeaths += stickman.DeathCount;
-                    ClearLevel();
-                    LevelThree();
+                    if (endingDoors[0].AdvanceLevel)
+                    {
+                        totalDeaths = 0;
+                        screen = Screen.LevelSelect;
+                        ClearLevel();
+                        playingGame = false;
+                    }
+                }
+                else
+                {
+                    if (endingDoors[0].AdvanceLevel)
+                    {
+                        totalDeaths += stickman.DeathCount;
+                        ClearLevel();
+                        LevelThree();
+                    }
                 }
             }
             else if (screen == Screen.LevelThree)
             {
-                if (endingDoors[0].AdvanceLevel)
-                {
-                    IsMouseVisible = true;
-                    screen = Screen.Intro;
-                    ClearLevel();
-                    playingGame = false;
 
+                if (levelSelect)
+                {
+                    if (endingDoors[0].AdvanceLevel)
+                    {
+                        totalDeaths = 0;
+                        screen = Screen.LevelSelect;
+                        ClearLevel();
+                        playingGame = false;
+
+                    }
+                }
+                else
+                {
+                    if (endingDoors[0].AdvanceLevel)
+                    {                    
+                        screen = Screen.Intro;
+                        ClearLevel();
+                        playingGame = false;
+
+                    }
                 }
 
 
+            }
+            else if (screen == Screen.LevelSelect)
+            {
+                levelSelect = true;
+                IsMouseVisible = true;
+                selectedLevel = "";
+
+                if (levelOneRect.Contains(mouseLocation) && mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    LevelOne();
+                }
+                else if (levelOneRect.Contains(mouseLocation))
+                {
+                    selectedLevel = "Tutorial";
+                }
+
+                if (levelTwoRect.Contains(mouseLocation) && mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    LevelTwo();
+                }
+                else if (levelTwoRect.Contains(mouseLocation))
+                {
+                    selectedLevel = "Blades Bonanza";
+                }
+
+                if (levelThreeRect.Contains(mouseLocation) && mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    LevelThree();
+                }
+                else if (levelThreeRect.Contains(mouseLocation))
+                {
+                    selectedLevel = "Cheeky Clouds";
+                }
             }
             
             // Lets you Return to Lobby
@@ -367,15 +444,28 @@ namespace FinalProject
             else if (screen == Screen.LevelSelect)
             {
                 BorderTextures();
+                _spriteBatch.DrawString(titleFont, "Level Select", new Vector2(40, 30), Color.Black);
+                _spriteBatch.DrawString(descriptionText, $"Selected Level: ", new Vector2(40, 100), Color.Black);
+                _spriteBatch.DrawString(descriptionText, $"Left Click the", new Vector2(790, 45), Color.Black);
+                _spriteBatch.DrawString(descriptionText, $"Level to Play! ", new Vector2(790, 75), Color.Black);
+                _spriteBatch.DrawString(descriptionText, $"{selectedLevel}", new Vector2(40, 140), Color.Black);
                 _spriteBatch.Draw(levelSelectLevelTextures[0], levelOneRect, Color.White);
                 _spriteBatch.Draw(levelSelectLevelTextures[1], levelTwoRect, Color.White);
+                _spriteBatch.Draw(levelSelectLevelTextures[2], levelThreeRect, Color.White);
             }
             else if (screen == Screen.Controls)
             {
+                _spriteBatch.DrawString(titleFont, "Controls", new Vector2(40, 30), Color.Black);
                 BorderTextures();
             }
             else if (screen == Screen.Credits)
             {
+                _spriteBatch.DrawString(titleFont, "Credits", new Vector2(40, 30), Color.Black);
+                _spriteBatch.DrawString(descriptionText, "Created by : Raihan C.", new Vector2(40, 200), Color.Black);
+                _spriteBatch.DrawString(descriptionText, "Special Thanks to Andrew M, and Mr A.", new Vector2(40, 230), Color.Black);
+                _spriteBatch.DrawString(descriptionText, "This game is inspired from the Vex  browser Series.", new Vector2(40, 260), Color.Black);
+                _spriteBatch.DrawString(titleFont, "Press 'R ' to Return to Lobby", new Vector2(40, 400), Color.Black);
+                BorderTextures();
                 BorderTextures();
             }
 
@@ -406,7 +496,7 @@ namespace FinalProject
                 stickman.Draw(_spriteBatch);
             }
 
-            //_spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(100, 30), Color.Black);
+            _spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(100, 30), Color.Black);
 
             _spriteBatch.End();
 
