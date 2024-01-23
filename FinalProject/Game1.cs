@@ -16,6 +16,7 @@ namespace FinalProject
     {
         // Final Project
         // Raihan Carder
+
         List<Rectangle> barriers;
         List<Texture2D> stickmanTextures;
         List<Texture2D> spinningBladeTextures;
