@@ -937,6 +937,18 @@
 /processorParam:TextureFormat=Color
 /build:9.gif
 
+#begin AonKeyboard.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:AonKeyboard.png
+
 #begin BlackStickmanRight.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1125,6 +1137,18 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:DescriptionText.spritefont
+
+#begin DonKeyboard.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:DonKeyboard.png
 
 #begin frame_0_delay-0.2s.gif
 /importer:TextureImporter
@@ -1488,6 +1512,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:rectangle.png
+
+#begin RonKeyboard.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:RonKeyboard.png
+
+#begin SpaceOnKeyboard.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SpaceOnKeyboard.PNG
 
 #begin Title.spritefont
 /importer:FontDescriptionImporter

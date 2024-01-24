@@ -43,21 +43,7 @@ namespace FinalProject // YUH
             _velocity.X = speed;
             _velocity.Y = speed;
             
-        }
-
-        public SpinningBlade(List<Texture2D> bladeTextures, int startingPointX, int startingPointY, float speed, int endingPoint, int size, bool horizontalDirection) // Reversed Spinning Blade
-        {
-            _spinningBladeTextures = bladeTextures;
-            _endingDistance = endingPoint;
-            _location = new Rectangle(startingPointX,startingPointY,size,size);
-            _spawnPoint = new Vector2(startingPointX, startingPointY);
-            _velocity = new Vector2();
-            _texture = bladeTextures[_frameCounter];
-            _horizontalDirection = horizontalDirection;
-            _velocity.X = (int)(speed);
-            _velocity.Y = (int)(speed);
-
-        }
+        }       
 
         public void Update(GameTime gameTime, Player stickman)
         {

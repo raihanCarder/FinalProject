@@ -56,14 +56,6 @@ namespace FinalProject
             _deaths = 0;
         }
 
-        public Player(Texture2D texture, int x, int y) // Used for Testing Purposes
-        {
-            _texture = texture;
-            _location = new Rectangle(x, y, 45, 45);
-            _velocity = new Vector2();
-            _direction = SpriteEffects.None;
-        }
-
         public Rectangle CollisonRectangle // Used for Collision
         {
             get { return _collisionRectangle; }

@@ -27,6 +27,7 @@ namespace FinalProject
         List<Texture2D> doorTextures;
         List<Texture2D> stickmanDancingTextures;
         List<Texture2D> levelSelectLevelTextures;
+        List<Texture2D> keyboardTextures;
         int stickmanDancingFrame = 0;      
         Texture2D stickmanSpritesheet;
         private GraphicsDeviceManager _graphics; 
@@ -95,11 +96,12 @@ namespace FinalProject
             doubleJumpTextures = new List<Texture2D>();
             doorTextures = new List<Texture2D>();
             stickmanDancingTextures = new List<Texture2D>();
-            levelSelectLevelTextures = new List<Texture2D> ();
+            levelSelectLevelTextures = new List<Texture2D>();
+            keyboardTextures = new List<Texture2D>();
 
             // Screen
 
-            screen = Screen.Intro; // CHANGE TO INTRO          
+            screen = Screen.Intro;         
             base.Initialize();
 
             // Initialize all other Lists
@@ -108,7 +110,7 @@ namespace FinalProject
             spinningBlades = new List<SpinningBlade>();
             doubleJumps = new List<DoubleJump>();
             endingDoors = new List<EndLevelDoor>();
-     
+   
         }
 
         protected override void LoadContent()
@@ -180,11 +182,18 @@ namespace FinalProject
                 stickmanDancingTextures.Add(Content.Load<Texture2D>($"{i}"));
             }
 
-            // Level Select Imags
+            // Level Select Images
 
             levelSelectLevelTextures.Add(Content.Load<Texture2D>("LevelOneFinishedImage"));
             levelSelectLevelTextures.Add(Content.Load<Texture2D>("LevelTwoFinishedImage"));
             levelSelectLevelTextures.Add(Content.Load<Texture2D>("LevelThreeFinishedImage"));
+
+            // Keyboard Textures for Controls
+
+            keyboardTextures.Add(Content.Load<Texture2D>("AonKeyboard"));
+            keyboardTextures.Add(Content.Load<Texture2D>("RonKeyboard"));
+            keyboardTextures.Add(Content.Load<Texture2D>("DonKeyboard"));
+            keyboardTextures.Add(Content.Load<Texture2D>("SpaceOnKeyboard"));
 
             // TODO: use this.Content to load your game content here
         }
@@ -445,18 +454,39 @@ namespace FinalProject
             else if (screen == Screen.LevelSelect)
             {
                 BorderTextures();
-                _spriteBatch.DrawString(titleFont, "Level Select", new Vector2(40, 30), Color.Black);
+                _spriteBatch.DrawString(titleFont, "Level Select", new Vector2(40, 20), Color.Black);
                 _spriteBatch.DrawString(descriptionText, $"Selected Level: ", new Vector2(40, 100), Color.Black);
                 _spriteBatch.DrawString(descriptionText, $"Left Click the", new Vector2(790, 45), Color.Black);
                 _spriteBatch.DrawString(descriptionText, $"Level to Play! ", new Vector2(790, 75), Color.Black);
                 _spriteBatch.DrawString(descriptionText, $"{selectedLevel}", new Vector2(40, 140), Color.Black);
+                _spriteBatch.DrawString(descriptionText, "Press 'R ' to ", new Vector2(40, 380), Color.Black);
+                _spriteBatch.DrawString(descriptionText, "Return to Lobby!", new Vector2(40, 420), Color.Black);
                 _spriteBatch.Draw(levelSelectLevelTextures[0], levelOneRect, Color.White);
                 _spriteBatch.Draw(levelSelectLevelTextures[1], levelTwoRect, Color.White);
                 _spriteBatch.Draw(levelSelectLevelTextures[2], levelThreeRect, Color.White);
             }
             else if (screen == Screen.Controls)
             {
-                _spriteBatch.DrawString(titleFont, "Controls", new Vector2(40, 30), Color.Black);
+                _spriteBatch.DrawString(titleFont, "Controls", new Vector2(40, 10), Color.Black);
+                _spriteBatch.DrawString(descriptionText, "Press 'R ' to Return to Lobby", new Vector2(40, 430), Color.Black);
+                _spriteBatch.DrawString(descriptionText, ": Moves Player Left.", new Vector2(110, 120), Color.Black);
+                _spriteBatch.DrawString(descriptionText, ": Moves Player Right.", new Vector2(110, 180), Color.Black);
+                _spriteBatch.DrawString(descriptionText, ": Returns you to Lobby (Even During Game).", new Vector2(110, 240), Color.Black);
+                _spriteBatch.DrawString(descriptionText, ": Makes Player Jump.", new Vector2(160, 320), Color.Black);
+                _spriteBatch.Draw(keyboardTextures[0], new Rectangle(50,120,50,50), Color.White);
+                _spriteBatch.Draw(keyboardTextures[2], new Rectangle(50, 180, 50, 50), Color.White);
+                _spriteBatch.Draw(keyboardTextures[1], new Rectangle(50, 240, 50, 50), Color.White);
+                _spriteBatch.Draw(keyboardTextures[3], new Rectangle(50, 320, 100, 50), Color.White);
+                _spriteBatch.Draw(spinningBladeTextures[0], new Rectangle(530, 30, 50, 40), Color.White);
+                _spriteBatch.DrawString(descriptionText, ": Dodge These Blades", new Vector2(590, 28), Color.Black);
+                _spriteBatch.DrawString(descriptionText, "  or else you Respawn!", new Vector2(590, 60), Color.Black);
+                _spriteBatch.Draw(doubleJumpTextures[0], new Rectangle(510, 110, 40, 40), Color.White);
+                _spriteBatch.DrawString(descriptionText, ": Clouds Allow you another Jump!", new Vector2(560, 105), Color.Black);
+                _spriteBatch.DrawString(descriptionText, "When touching, Click Space Quick", new Vector2(580, 150), Color.Black);
+                _spriteBatch.DrawString(descriptionText, "or You'll Fall Through!", new Vector2(580, 190), Color.Black);
+                _spriteBatch.Draw(doorTextures[0], new Rectangle(510, 310, 90, 100), Color.White);
+                _spriteBatch.DrawString(descriptionText, "Your Goal: Reach the Door to ", new Vector2(600, 310), Color.Black);
+                _spriteBatch.DrawString(descriptionText, "Progress To the Next Level.", new Vector2(600, 340), Color.Black);
                 BorderTextures();
             }
             else if (screen == Screen.Credits)
@@ -497,7 +527,7 @@ namespace FinalProject
                 stickman.Draw(_spriteBatch);
             }
 
-            _spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(100, 30), Color.Black);
+            //_spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(100, 30), Color.Black);
 
             _spriteBatch.End();
 
@@ -707,6 +737,5 @@ namespace FinalProject
                 }
             }
         }
-
     }
 }
