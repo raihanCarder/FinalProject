@@ -39,6 +39,7 @@ namespace FinalProject
         KeyboardState keyboardState;
         int xPosition, yPosition;
         SpriteFont cordinates;
+        Texture2D gameRatingTexture;
         SpriteFont titleFont, deathCounterText, descriptionText;
         bool playingGame = false;
         Rectangle playRect, controlsRect, creditsRect, levelSelectRect, levelOneRect, levelTwoRect, levelThreeRect;
@@ -131,6 +132,7 @@ namespace FinalProject
             stickmanSpritesheet = Content.Load<Texture2D>("BlackStickmanRight");
             cordinates = Content.Load<SpriteFont>("Cordinates"); // Delete later 
             descriptionText = Content.Load<SpriteFont>("DescriptionText");
+            gameRatingTexture = Content.Load<Texture2D>("RatedE");
 
             int width = stickmanSpritesheet.Width / 8;
             int height = stickmanSpritesheet.Height / 5;
@@ -448,7 +450,8 @@ namespace FinalProject
                 _spriteBatch.Draw(playTexture, playRect, Color.White);
                 _spriteBatch.Draw(controlsTexture, controlsRect, Color.White);
                 _spriteBatch.Draw(creditsTexture, creditsRect, Color.White);
-                _spriteBatch.Draw(stickmanDancingTextures[stickmanDancingFrame], new Rectangle(650, 85, 400, 385), Color.White);
+                _spriteBatch.Draw(stickmanDancingTextures[stickmanDancingFrame], new Rectangle(630, 85, 400, 385), Color.White);
+                _spriteBatch.Draw(gameRatingTexture, new Rectangle(1000,360,80,120), Color.White);
                 
             }
             else if (screen == Screen.LevelSelect)
