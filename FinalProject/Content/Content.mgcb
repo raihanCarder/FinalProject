@@ -1069,6 +1069,12 @@
 /processorParam:TextureFormat=Color
 /build:circle.png
 
+#begin CoralChorus.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:CoralChorus.mp3
+
 #begin Cordinates.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

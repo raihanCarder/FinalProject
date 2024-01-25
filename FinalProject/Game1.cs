@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -51,6 +52,8 @@ namespace FinalProject
         private float _animationTime;
         bool levelSelect = false;
         string selectedLevel = "";
+        private SoundEffect introSong;
+        SoundEffectInstance introInstance;
 
 
         enum Screen
@@ -117,6 +120,10 @@ namespace FinalProject
         protected override void LoadContent()
         {
             // Loading Content
+            introSong = Content.Load<SoundEffect>("CoralChorus");
+            introInstance = introSong.CreateInstance();
+            introInstance.IsLooped = false;
+
             controlsTexture1 = Content.Load<Texture2D>("button_controls");
             controlsTexture2 = Content.Load<Texture2D>("button_controls (1)");
             levelSelectTexture1 = Content.Load<Texture2D>("button_level-select");
@@ -209,13 +216,17 @@ namespace FinalProject
             yPosition = mouseState.Y;
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                introInstance.Stop();
                 Exit();
+            }
 
             // TODO: Add your update logic here
 
 
             if (screen == Screen.Intro)
             {
+                introInstance.Play();
                 IsMouseVisible = true;
                 DancingStickman(gameTime);
 
@@ -561,6 +572,7 @@ namespace FinalProject
 
         public void LevelOne()
         {
+            introInstance.Stop();
             IsMouseVisible = false;
             level = 1;
             screen = Screen.LevelOne;
@@ -589,6 +601,7 @@ namespace FinalProject
 
         public void LevelTwo()
         {
+            introInstance.Stop();
             IsMouseVisible = false;
             level = 2;
             screen = Screen.LevelTwo;
@@ -627,6 +640,7 @@ namespace FinalProject
 
         public void LevelThree()
         {
+            introInstance.Stop();
             IsMouseVisible = false;
             level = 3;
             screen = Screen.LevelThree;
