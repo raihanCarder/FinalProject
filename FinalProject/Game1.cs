@@ -533,7 +533,7 @@ namespace FinalProject
                 stickman.Draw(_spriteBatch);
             }
 
-            _spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(100, 30), Color.Black);
+            //_spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(100, 30), Color.Black);
 
             _spriteBatch.End();
 
