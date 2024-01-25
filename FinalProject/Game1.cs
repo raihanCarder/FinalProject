@@ -495,9 +495,12 @@ namespace FinalProject
             else if (screen == Screen.Credits)
             {
                 _spriteBatch.DrawString(titleFont, "Credits", new Vector2(40, 30), Color.Black);
-                _spriteBatch.DrawString(descriptionText, "Created by : Raihan C.", new Vector2(40, 200), Color.Black);
-                _spriteBatch.DrawString(descriptionText, "Special Thanks to Andrew M, and Mr A.", new Vector2(40, 230), Color.Black);
-                _spriteBatch.DrawString(descriptionText, "This game is inspired from the Vex  browser Series.", new Vector2(40, 260), Color.Black);
+                _spriteBatch.DrawString(descriptionText, "Created by : Raihan C.", new Vector2(40, 100), Color.Black);
+                _spriteBatch.DrawString(descriptionText, "Special Thanks to Andrew M, and Mr A.", new Vector2(40, 140), Color.Black);
+                _spriteBatch.DrawString(descriptionText, "This game is inspired from the Vex  browser Series.", new Vector2(40, 180), Color.Black);
+                _spriteBatch.DrawString(descriptionText, "Tips/Tricks", new Vector2(40, 220), Color.Black);
+                _spriteBatch.DrawString(descriptionText, "1. Hold Space To instantly jump off a Cloud.", new Vector2(40, 260), Color.Black);
+                _spriteBatch.DrawString(descriptionText, "2. You can jump off a Cloud infinitely.", new Vector2(40, 300), Color.Black);
                 _spriteBatch.DrawString(titleFont, "Press 'R ' to Return to Lobby", new Vector2(40, 400), Color.Black);
                 BorderTextures();
                 BorderTextures();
@@ -530,7 +533,7 @@ namespace FinalProject
                 stickman.Draw(_spriteBatch);
             }
 
-            //_spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(100, 30), Color.Black);
+            _spriteBatch.DrawString(cordinates, $"{xPosition}, {yPosition}", new Vector2(100, 30), Color.Black);
 
             _spriteBatch.End();
 
