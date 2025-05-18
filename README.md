@@ -1,2 +1,2 @@
  # Built as a Final Project for my grade 12 CS course!
- ⚠️ Early project in my Coding career. Left Public to show my Journey
+ ⚠️ Early project from when I first learnt I love to code. Left Public to show my Journey
